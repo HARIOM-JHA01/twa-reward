@@ -312,6 +312,18 @@
   resolved "https://registry.npmjs.org/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.28.0.tgz"
   integrity sha512-Bvno2/aZT6usSa7lRDL2+hMjVAGjuqaymF1ApZm31JXzniR/hvr14jpU+/z4X6Gt5BPlzosscyJZGUvguXIqeQ==
 
+"@twa-dev/sdk@^8.0.1":
+  version "8.0.1"
+  resolved "https://registry.npmjs.org/@twa-dev/sdk/-/sdk-8.0.1.tgz"
+  integrity sha512-mBR5dnAvSyRx7YGt/n0Owq1z8MsWhsuh76JD1abV0TZWHi6RQSPXBNAG0XMOMO7Vf5hsAwUTul+x54vf43Ku0A==
+  dependencies:
+    "@twa-dev/types" "^8.0.1"
+
+"@twa-dev/types@^8.0.1":
+  version "8.0.1"
+  resolved "https://registry.npmjs.org/@twa-dev/types/-/types-8.0.1.tgz"
+  integrity sha512-/m3KiULhI4fdeoI5K9Op9jFbmdPjxaAdrZBJ3BA1fS4lVmKCx9XuLTeumzYeuOW577eHAJWaZkcSpWBOss4Epw==
+
 "@types/babel__core@^7.20.5":
   version "7.20.5"
   resolved "https://registry.npmjs.org/@types/babel__core/-/babel__core-7.20.5.tgz"
