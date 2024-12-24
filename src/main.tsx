@@ -1,12 +1,24 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
-import WebApp from '@twa-dev/sdk'
+import React, { useEffect } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import App from "./App"; // Changed from App.tsx to App
+import WebApp from "@twa-dev/sdk";
+import { BrowserRouter } from "react-router-dom";
 
-WebApp.ready();
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+const Root = () => {
+    useEffect(() => {
+        WebApp.ready();
+    }, []);
+
+    return (
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
+    );
+};
+
+createRoot(document.getElementById("root")!).render(
+    <React.StrictMode>
+        <Root />
+    </React.StrictMode>
+);

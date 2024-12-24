@@ -1,40 +1,22 @@
 import { useEffect, useState } from "react";
 import WebApp from "@twa-dev/sdk";
-
+import { useNavigate } from "react-router-dom";
 import "./App.css";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
 
 function App() {
     useEffect(() => {
         WebApp.ready();
     }, []);
 
+    const navigate = useNavigate();
+
     return (
         <div>
-            <header className="flex justify-between items-center pt-3 pl-3 pr-2 bg-[#37474F] pb-3">
-                <img
-                    src="./bonus-logo.png"
-                    alt=""
-                    width={"30px"}
-                    height={"30px"}
-                />
-                <h1 className="text-white">Bonus For You</h1>
-                <div className="flex gap-2">
-                    <img
-                        src="./hnkf.png"
-                        alt=""
-                        width={"30px"}
-                        height={"30px"}
-                    />
-                    <img
-                        src="./privacy.png"
-                        alt=""
-                        width={"30px"}
-                        height={"30px"}
-                    />
-                </div>
-            </header>
+            <Header />
 
-            <main className="bg-yellow-300 pt-8 flex flex-col justify-center items-center">
+            <main className="bg-yellow-300 pt-8 flex flex-col justify-center items-center h-screen w-full">
                 <img
                     src="https://picsum.photos/300/100"
                     alt=""
@@ -52,7 +34,10 @@ function App() {
                 {/* Buttons */}
 
                 <section className="flex flex-col gap-4 mt-4 items-center">
-                    <div className="py-3 bg-[#37474F] min-w-[300px] text-center rounded-md text-white hover:text-black max-w-[300px]">
+                    <div
+                        onClick={() => navigate("/rewards")}
+                        className="py-3 bg-[#37474F] min-w-[300px] text-center rounded-md text-white hover:text-black max-w-[300px]"
+                    >
                         Available Events
                     </div>
                     <div className="py-3 bg-[#37474F] min-w-[300px] text-center rounded-md text-white hover:text-black max-w-[300px]">
@@ -69,13 +54,7 @@ function App() {
                     </div>
                 </section>
 
-                <section className="flex flex-col gap-4 mt-4 items-center pb-5">
-                    <img
-                        src="https://picsum.photos/300/100"
-                        alt=""
-                        className="rounded-lg shadow-lg w-[300px] h-[120px] mx-auto"
-                    />
-                </section>
+                <Footer />
             </main>
         </div>
     );
