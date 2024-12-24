@@ -1,62 +1,84 @@
-import { useEffect, useState } from 'react';
-import WebApp from '@twa-dev/sdk';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import WebApp from "@twa-dev/sdk";
+
+import "./App.css";
 
 function App() {
-  const [country, setCountry] = useState<string | null>(null);
-  const [userData, setUserData] = useState<any>({});
-  const [error, setError] = useState<string | null>(null);
+    useEffect(() => {
+        WebApp.ready();
+    }, []);
 
-  useEffect(() => {
-    // Initialize Telegram Web App
-    WebApp.ready();
+    return (
+        <div>
+            <header className="flex justify-between items-center pt-3 pl-3 pr-2 bg-[#37474F] pb-3">
+                <img
+                    src="./bonus-logo.png"
+                    alt=""
+                    width={"30px"}
+                    height={"30px"}
+                />
+                <h1 className="text-white">Bonus For You</h1>
+                <div className="flex gap-2">
+                    <img
+                        src="./hnkf.png"
+                        alt=""
+                        width={"30px"}
+                        height={"30px"}
+                    />
+                    <img
+                        src="./privacy.png"
+                        alt=""
+                        width={"30px"}
+                        height={"30px"}
+                    />
+                </div>
+            </header>
 
-    // Fetch country using IP geolocation API
-    fetch('https://ipapi.co/json/')
-      .then((response) => response.json())
-      .then((data) => {
-        if (data && data.country_name) {
-          setCountry(data.country_name);
-        } else {
-          setError('Could not determine your country.');
-        }
-      })
-      .catch(() => {
-        setError('Failed to fetch country information.');
-      });
+            <main className="bg-yellow-300 pt-8 flex flex-col justify-center items-center">
+                <img
+                    src="https://picsum.photos/300/100"
+                    alt=""
+                    className="rounded-lg shadow-lg w-[300px] h-[120px] mx-auto"
+                />
+                {/* // country dropdown */}
+                <section>
+                    <select className="mt-4 p-2 rounded-lg w-[300px] bg-yellow-300 outline-black border-black outline outline-2">
+                        <option value="1">India</option>
+                        <option value="2">USA</option>
+                        <option value="3">UK</option>
+                    </select>
+                </section>
 
-    // Fetch Telegram user data
-    const initDataUnsafe = WebApp.initDataUnsafe;
-    setUserData({
-      firstName: initDataUnsafe?.user?.first_name || 'Unknown',
-      lastName: initDataUnsafe?.user?.last_name || '',
-      username: initDataUnsafe?.user?.username || 'Unknown',
-    });
-  }, []);
+                {/* Buttons */}
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noopener noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noopener noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React + Telegram WebApp</h1>
-      <div>
-        <p><strong>User Info:</strong></p>
-        <p>First Name: {userData.firstName}</p>
-        <p>Last Name: {userData.lastName}</p>
-        <p>Username: {userData.username}</p>
-        <p>Country: {country || 'Fetching...'}</p>
-      </div>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-    </>
-  );
+                <section className="flex flex-col gap-4 mt-4 items-center">
+                    <div className="py-3 bg-[#37474F] min-w-[300px] text-center rounded-md text-white hover:text-black max-w-[300px]">
+                        Available Events
+                    </div>
+                    <div className="py-3 bg-[#37474F] min-w-[300px] text-center rounded-md text-white hover:text-black max-w-[300px]">
+                        Ongoing Events
+                    </div>
+                    <div className="py-3 bg-[#37474F] min-w-[300px] text-center rounded-md text-white hover:text-black max-w-[300px]">
+                        Participated Events
+                    </div>
+                    <div className="py-3 bg-[#37474F] min-w-[300px] text-center rounded-md text-white hover:text-black max-w-[300px]">
+                        Prize I Won
+                    </div>
+                    <div className="py-3 bg-[#37474F] min-w-[300px] text-center rounded-md text-white hover:text-black max-w-[300px]">
+                        My Profile
+                    </div>
+                </section>
+
+                <section className="flex flex-col gap-4 mt-4 items-center pb-5">
+                    <img
+                        src="https://picsum.photos/300/100"
+                        alt=""
+                        className="rounded-lg shadow-lg w-[300px] h-[120px] mx-auto"
+                    />
+                </section>
+            </main>
+        </div>
+    );
 }
 
 export default App;
