@@ -3,7 +3,8 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App"; // Changed from App.tsx to App
 import WebApp from "@twa-dev/sdk";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Rewards from "./pages/Rewards";
 
 const Root = () => {
     useEffect(() => {
@@ -12,7 +13,10 @@ const Root = () => {
 
     return (
         <BrowserRouter>
-            <App />
+        <Routes>
+            <Route path="/" element={<App />} />
+            <Route path="/rewards" element={<Rewards />} />
+        </Routes>
         </BrowserRouter>
     );
 };
