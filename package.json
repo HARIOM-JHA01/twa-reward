@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "docker:build": "docker build -t bonusforyou .",
+    "docker:run": "docker run -p 3000:3000 bonusforyou"
   },
   "dependencies": {
     "@twa-dev/sdk": "^8.0.1",
