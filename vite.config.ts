@@ -5,7 +5,16 @@ import basicSsl from "@vitejs/plugin-basic-ssl";
 export default defineConfig({
     plugins: [react(), basicSsl()],
     build: {
-        outDir: "./docs",
+        outDir: "./dist",
     },
     base: "./",
+    server: {
+        proxy: {
+            '/api/ipapi': {
+                target: 'https://ipapi.co',
+                changeOrigin: true,
+                rewrite: (path) => path.replace(/^\/api\/ipapi/, '')
+            }
+        }
+    }
 });
