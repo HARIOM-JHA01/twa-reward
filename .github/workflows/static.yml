@@ -27,7 +27,7 @@ jobs:
             - name: Setup Node
               uses: actions/setup-node@v3
               with:
-                  node-version: 18 # Update to a compatible Node.js version
+                  node-version: 20 # Update to a compatible Node.js version
                   cache: "npm"
                   cache-dependency-path: "./"
             - name: Install dependencies
