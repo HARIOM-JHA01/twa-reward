@@ -14,7 +14,7 @@ export default function Profile() {
         let data = WebApp.initDataUnsafe;
         setFirstName(data?.user?.first_name || "First");
         setLastName(data?.user?.last_name || "Last");
-        setEmail(data?.user?.email || "email@example.com");
+        setEmail(data?.user?.id || "email@example.com");
         setCountry(data?.user?.country || "IN");
         // fetch('https://ipapi.co/json/')
         //     .then((response) => response.json())
@@ -49,10 +49,12 @@ export default function Profile() {
 
     const getFormattedCode = () => {
         if (country && firstName && lastName) {
+            //generate 6 digit code alphabet in capital letters
+            let randomCode = Array.from({ length: 6 }, () => String.fromCharCode(65 + Math.floor(Math.random() * 26))).join('');
             const date = new Date();
             const year = date.getFullYear();
             const month = String(date.getMonth() + 1).padStart(2, '0');
-            return `${country}-${year}${month}-${firstName}${lastName}`;
+            return `${country}-${year}${month}-${randomCode}`;
         }
         return `${firstName}${lastName}`;
     };
@@ -68,6 +70,9 @@ export default function Profile() {
                 ) : (
                     <>
                         <div className="flex flex-col gap-4 w-[90%] max-w-md bg-yellow-300 p-4 rounded-lg shadow-md">
+                            <label htmlFor=""
+                            className="font-semibold text-xl "
+                            >First Name</label>
                             <input
                                 type="text"
                                 value={firstName}
@@ -75,6 +80,7 @@ export default function Profile() {
                                 placeholder="First Name"
                                 readOnly
                             />
+                            <label htmlFor=""className="font-semibold text-xl ">Last Name</label>
                             <input
                                 type="text"
                                 value={lastName}
@@ -82,6 +88,7 @@ export default function Profile() {
                                 placeholder="Last Name"
                                 readOnly
                             />
+                            <label htmlFor=""className="font-semibold text-xl ">Telegram ID</label>
                             <input
                                 type="email"
                                 value={email}
@@ -89,13 +96,15 @@ export default function Profile() {
                                 placeholder="Email"
                                 readOnly
                             />
+                            <label htmlFor=""className="font-semibold text-xl ">Country</label>
                             <input
                                 type="text"
-                                value={country}
+                                value={"India"}
                                 className="bg-white border border-gray-300 rounded px-4 py-2 text-black"
                                 placeholder="Country"
                                 readOnly
                             />
+                            <label htmlFor=""className="font-semibold text-xl ">Participant Code</label>
                             <input
                                 type="text"
                                 value={getFormattedCode()}
@@ -103,12 +112,12 @@ export default function Profile() {
                                 placeholder="Unique Code"
                                 readOnly
                             />
-                            <button
+                            {/* <button
                                 className="bg-gray-800 text-white font-bold py-2 rounded"
                                 onClick={() => WebApp.showAlert("Profile Updated")}
                             >
                                 Change Profile
-                            </button>
+                            </button> */}
                         </div>
                     </>
                 )}

@@ -19,7 +19,7 @@ const Header = () => {
                 onClick={() => router("/")}
                 className="text-white font-semibold cursor-pointer"
             >
-                Bonus For You
+                BonusForYou
             </h1>
             
             <div className="relative flex gap-2">

@@ -53,7 +53,8 @@ export const Card = () => {
         <div className="flex gap-4 flex-col"
         onClick={() => router("/event")}
         >
-                <img src="https://picsum.photos/100" alt="" className="w-full h-48 object-cover rounded-md" />
+            <h2>Test Title</h2>
+                <img src="https://picsum.photos/100" alt="" className="w-full h-40 object-cover rounded-lg p-4" />
                 <div className="flex justify-between">
                     <h2>Start Date: 2024-01-01</h2>
                     <h2>End Date: 2025-12-31</h2>
