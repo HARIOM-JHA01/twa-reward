@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 
 export default function Rewards() {
     const [activeTab, setActiveTab] = useState("available");
-    const router = useNavigate();
     return (
         <div className="bg-yellow-300">
             <Header />

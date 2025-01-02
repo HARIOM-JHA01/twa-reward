@@ -1,6 +1,5 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import WebApp from "@twa-dev/sdk";
 export default function Event() {
@@ -14,7 +13,6 @@ export default function Event() {
             });
         }, []);
 
-    const router = useNavigate();
     return (
         <div className="bg-yellow-300">
             <Header />
