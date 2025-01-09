@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App"; // Changed from App.tsx to App
 import WebApp from "@twa-dev/sdk";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { UserProvider } from '../src/context/UserContext.js';
 import {
     Profile,
     Privacy,
@@ -35,6 +36,8 @@ const Root = () => {
 
 createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
+        <UserProvider>
         <Root />
+        </UserProvider>
     </React.StrictMode>
 );

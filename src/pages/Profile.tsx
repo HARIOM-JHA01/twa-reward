@@ -1,34 +1,64 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import WebApp from "@twa-dev/sdk";
+import { UserContext } from '../context/UserContext.js';
 
 export default function Profile() {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
-    const [id, setId] = useState(0);
     const [countryName, setCountryName] = useState("");
-    const [countryCode, setCountryCode] = useState("");
     const [error, setError] = useState("");
+    const [telegramId, setTelegramId] = useState("");
+    const [participantCode, setParticipantCode] = useState("");
+
+    const userContext = useContext(UserContext);
+    if (!userContext) {
+        throw new Error("UserContext must be used within a UserProvider");
+    }
+    const { setUser } = userContext;
 
     useEffect(() => {
-        let data = WebApp.initDataUnsafe;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
-        setFirstName(data?.user?.first_name || "First");
-        setLastName(data?.user?.last_name || "Last");
-        setId(data?.user?.id || 12345678);
-        fetch('https://ipapi.co/json/')
-            .then((response) => response.json())
-            .then((data) => {
-                if (data && data.country_name) {
-                    setCountryName(data.country_name);
-                    setCountryCode(data.country_code);
-                } else {
-                    setError('Could not determine your country.');
-                }
+        const initData = WebApp.initDataUnsafe;
+        const telegram_id = initData?.user?.id || 'Fan_tai663';
+
+        if (telegram_id) {
+            // Fetch user data from the API
+            fetch('https://bonusforyou.org/api/user/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    telegram_id: telegram_id,
+                }),
             })
-            .catch(() => {
-                setError('Failed to fetch country information.');
-            });
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.status) {
+                        const userData = data.data;
+                        setFirstName(userData.name.split('_')[0]);
+                        setLastName(userData.name.split('_')[1]);
+                        setTelegramId(userData.telegram_id);
+                        setCountryName(userData.country);
+                        setParticipantCode(userData.unique_id);
+                        setUser({
+                            id: userData.id,
+                            name: userData.name,
+                            telegramId: userData.telegram_id,
+                            country: userData.country,
+                            uniqueId: userData.unique_id,
+                        });
+                    } else {
+                        setError('Failed to fetch user data.');
+                    }
+                })
+                .catch(() => {
+                    setError('Failed to fetch user data.');
+                });
+        } else {
+            setError('Telegram ID not found.');
+        }
 
         // Show the Back Button
         WebApp.BackButton.show();
@@ -36,8 +66,7 @@ export default function Profile() {
         // Set Back Button click event
         WebApp.BackButton.onClick(() => {
             window.history.back();
-            // WebApp.close(); 
-
+            // WebApp.close();
         });
 
         // Clean up Back Button listener on component unmount
@@ -45,20 +74,6 @@ export default function Profile() {
             // WebApp.BackButton.offClick();
         };
     }, []);
-
-    const getFormattedCode = () => {
-        if (countryName && firstName && lastName) {
-            //generate 6 digit code alphabet in capital letters
-            let randomCode = Array.from({ length: 6 }, () => String.fromCharCode(65 + Math.floor(Math.random() * 26))).join('');
-            const date = new Date();
-            const year = date.getFullYear();
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            return `${countryCode}-${year}${month}-${randomCode}`;
-        }
-        return `${firstName}${lastName}`;
-    };
-
-
 
     return (
         <div className="bg-yellow-300">
@@ -69,46 +84,44 @@ export default function Profile() {
                 ) : (
                     <>
                         <div className="flex flex-col gap-4 w-[90%] max-w-md bg-yellow-300 p-4 rounded-lg shadow-md">
-                            <label htmlFor=""
-                                className="font-semibold text-xl "
-                            >First Name</label>
+                            <label htmlFor="" className="font-semibold text-xl">First Name</label>
                             <input
                                 type="text"
-                                value={firstName}
+                                value={firstName || ''}
                                 className="bg-white border border-gray-300 rounded px-4 py-2 text-black"
                                 placeholder="First Name"
                                 readOnly
                             />
-                            <label htmlFor="" className="font-semibold text-xl ">Last Name</label>
+                            <label htmlFor="" className="font-semibold text-xl">Last Name</label>
                             <input
                                 type="text"
-                                value={lastName}
+                                value={lastName || ''}
                                 className="bg-white border border-gray-300 rounded px-4 py-2 text-black"
                                 placeholder="Last Name"
                                 readOnly
                             />
-                            <label htmlFor="" className="font-semibold text-xl ">Telegram ID</label>
-                            <input
-                                type="id"
-                                value={id}
-                                className="bg-white border border-gray-300 rounded px-4 py-2 text-black"
-                                placeholder="id"
-                                readOnly
-                            />
-                            <label htmlFor="" className="font-semibold text-xl ">Country</label>
+                            <label htmlFor="" className="font-semibold text-xl">Telegram ID</label>
                             <input
                                 type="text"
-                                value={countryName}
+                                value={telegramId }
+                                className="bg-white border border-gray-300 rounded px-4 py-2 text-black"
+                                placeholder="Telegram ID"
+                                readOnly
+                            />
+                            <label htmlFor="" className="font-semibold text-xl">Country</label>
+                            <input
+                                type="text"
+                                value={countryName || ''}
                                 className="bg-white border border-gray-300 rounded px-4 py-2 text-black"
                                 placeholder="Country"
                                 readOnly
                             />
-                            <label htmlFor="" className="font-semibold text-xl ">Participant Code</label>
+                            <label htmlFor="" className="font-semibold text-xl">Participant Code</label>
                             <input
                                 type="text"
-                                value={getFormattedCode()}
+                                value={participantCode || ''}
                                 className="bg-white border border-gray-300 rounded px-4 py-2 text-black"
-                                placeholder="Unique Code"
+                                placeholder="Participant Code"
                                 readOnly
                             />
                         </div>
