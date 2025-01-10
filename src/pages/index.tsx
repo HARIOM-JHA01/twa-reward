@@ -1,8 +1,10 @@
 import Profile from "./Profile";
 import Privacy from "./Privacy";
-import Rewards from "./Rewards";
+import AvailableRewards from "./AvailableRewards";
+import OngoingRewards from "./OngoingRewards";
 import Participated from "./Participated";
 import Merchant from "./Merchant";
-import Event from "./Event";
+import DrawEvent from "./DrawEvent";
+import RewardEvent from "./RewardEvent";
 
-export { Profile, Privacy, Rewards, Participated, Merchant, Event };
+export { Profile, Privacy, AvailableRewards, OngoingRewards, Participated, Merchant, DrawEvent, RewardEvent };

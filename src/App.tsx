@@ -14,6 +14,8 @@ function App() {
         WebApp.ready();
     }, []);
 
+    
+
     const [promotionBanner, setPromotionBanner] = useState<PromotionBanner | null>(null);
 
     useEffect(() => {
@@ -44,13 +46,13 @@ function App() {
 
                 <section className="flex flex-col gap-4 mt-4 items-center">
                     <div
-                        onClick={() => navigate("/rewards")}
+                        onClick={() => navigate("/available-rewards")}
                         className="py-3 bg-[#37474F] min-w-[300px] text-center rounded-md text-white hover:font-bold hover:cursor-pointer max-w-[300px]"
                     >
                         Available Events
                     </div>
                     <div
-                        onClick={() => navigate("/rewards")}
+                        onClick={() => navigate("/ongoing-rewards")}
                         className="py-3 bg-[#37474F] min-w-[300px] text-center rounded-md text-white hover:font-bold hover:cursor-pointer max-w-[300px]"
                     >
                         Ongoing Events

@@ -19,8 +19,9 @@ export default function Profile() {
     const { setUser } = userContext;
 
     useEffect(() => {
-        const initData = WebApp.initDataUnsafe;
-        const telegram_id = initData?.user?.id || 'Fan_tai663';
+        // const initData = WebApp.initDataUnsafe;
+        // const telegram_id = initData?.user?.id || 'Fan_tai663';
+        const telegram_id = 'Fan_tai663';
 
         if (telegram_id) {
             // Fetch user data from the API

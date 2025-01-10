@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import  { useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App"; // Changed from App.tsx to App
@@ -8,10 +8,12 @@ import { UserProvider } from '../src/context/UserContext.js';
 import {
     Profile,
     Privacy,
-    Rewards,
+    AvailableRewards,
+    OngoingRewards,
     Participated,
     Merchant,
-    Event,
+    DrawEvent,
+    RewardEvent,
 } from "./pages/index";
 import './i18n'; // Import the i18n configuration
 const Root = () => {
@@ -23,21 +25,21 @@ const Root = () => {
         <BrowserRouter>
         <Routes>
             <Route path="/" element={<App />} />
-            <Route path="/rewards" element={<Rewards />} />
+            <Route path="/available-rewards" element={<AvailableRewards />} />
+            <Route path="/ongoing-rewards" element={<OngoingRewards />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/participated" element={<Participated />} />
             <Route path="/merchant" element={<Merchant />} />
-            <Route path="/event" element={<Event />} />
+            <Route path="/draw-event/:id" element={<DrawEvent />} />
+            <Route path="/reward-event/:id" element={<RewardEvent />} />
         </Routes>
         </BrowserRouter>
     );
 };
 
 createRoot(document.getElementById("root")!).render(
-    <React.StrictMode>
         <UserProvider>
         <Root />
         </UserProvider>
-    </React.StrictMode>
 );
