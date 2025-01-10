@@ -82,13 +82,13 @@ export default function AvailableRewards() {
                 <section>
                     <div className="flex justify-center gap-4">
                         <div
-                            className={`py-2 px-4 rounded-md cursor-pointer ${activeTab === "available" ? "bg-yellow-600 text-white" : "bg-[#37474F] text-white"}`}
+                            className={`py-2 px-4 rounded-md cursor-pointer ${activeTab === "available" ? " text-black" : "bg-yellow-600 text-white"}`}
                             onClick={() => setActiveTab("available")}
                         >
                             BonusForYou
                         </div>
                         <div
-                            className={`py-2 px-4 rounded-md cursor-pointer ${activeTab === "ongoing" ? "bg-yellow-600 text-white" : "bg-[#37474F] text-white"}`}
+                            className={`py-2 px-4 rounded-md cursor-pointer ${activeTab === "ongoing" ? " text-black" : " bg-yellow-600 text-white"}`}
                             onClick={() => setActiveTab("ongoing")}
                         >
                             Rewards
