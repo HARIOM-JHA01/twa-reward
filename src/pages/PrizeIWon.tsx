@@ -5,48 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import WebApp from "@twa-dev/sdk";
 
-interface Reward {
-    id: number;
-    poster_id: number;
-    reward_name: string;
-    reward_image: string;
-    country: string;
-    start_date: string;
-    end_date: string;
-    reward_detail: string;
-    status: string;
-    reward_status: number;
-    verifiaction_link_0: string;
-    repeat: string;
-    max_user: number;
-    join_user: number;
-    draw_detail_link: string | null;
-    created_at: string;
-    updated_at: string;
-}
+import {
+    Draw,
+    Reward
+} from "../types/type"
 
-interface Draw {
-    id: number;
-    poster_id: number;
-    draw_name: string;
-    draw_image: string;
-    country: string;
-    start_date: string;
-    end_date: string;
-    draw_detail: string;
-    status: string;
-    draw_status: number;
-    verifiaction_link_0: string;
-    repeat: string;
-    max_user: number;
-    join_user: number;
-    prize_detail_link: string | null;
-    draw_detail_link: string | null;
-    created_at: string;
-    updated_at: string;
-}
-
-export default function AvailableRewards() {
+export default function PrizeIWon() {
     const [activeTab, setActiveTab] = useState("available");
     const [rewards, setRewards] = useState<Reward[]>([]);
     const [draws, setDraws] = useState<Draw[]>([]);
@@ -55,24 +19,24 @@ export default function AvailableRewards() {
 
     useEffect(() => {
         if (activeTab === "available") {
-            fetch(`https://bonusforyou.org/api/user/drawlist?user_id=${user.id}`)
+            fetch(`https://bonusforyou.org/api/user/Win_draws?user_id=${user.id}`)
                 .then(response => response.json())
                 .then(data => setDraws(data.data))
                 .catch(error => console.error("Error fetching draws:", error));
         } else {
-            fetch(`https://bonusforyou.org/api/user/rewarddrawlist?user_id=${user.id}`)
+            fetch(`https://bonusforyou.org/api/user/Reward_win_draws?user_id=${user.id}`)
                 .then(response => response.json())
                 .then(data => setRewards(data.data))
                 .catch(error => console.error("Error fetching rewards:", error));
         }
 
         WebApp.BackButton.show();
-        
-                // Set Back Button click event
-                WebApp.BackButton.onClick(() => {
-                    window.history.back();
-                    // WebApp.close();
-                });
+
+        // Set Back Button click event
+        WebApp.BackButton.onClick(() => {
+            window.history.back();
+            // WebApp.close();
+        });
     }, [activeTab, user.id]);
 
     return (
@@ -97,17 +61,28 @@ export default function AvailableRewards() {
                 </section>
                 <section className="mt-8">
                     {activeTab === "available" && (
-                        <div className="p-2  rounded-md shadow-md">
-                            {draws.map(draw => (
-                                <DrawCard key={draw.id} draw={draw} />
-                            ))}
+                        <div >
+                            {!draws || draws.length === 0 ? (
+                                <h2
+                                    className="flex justify-center items-center"
+                                >No Data to Display</h2>
+                            ) :
+                                draws.map(draw => (
+                                    <DrawCard key={draw.id} draw={draw} />
+                                ))}
                         </div>
                     )}
                     {activeTab === "ongoing" && (
-                        <div className="p-2  rounded-md shadow-md">
-                            {rewards.map(reward => (
-                                <RewardCard key={reward.id} reward={reward} />
-                            ))}
+                        <div >
+                            {!rewards || rewards.length === 0 ? (
+                                <h2
+                                    className="flex justify-center items-center"
+                                >No Data to Display</h2>
+                            ) : (
+                                rewards.map(reward => (
+                                    <RewardCard key={reward.id} reward={reward} />
+                                ))
+                            )}
                         </div>
                     )}
                 </section>
@@ -147,8 +122,8 @@ export const DrawCard: React.FC<DrawCardProps> = ({ draw }) => {
             <h2 className="text-black px-1">{draw.draw_name}</h2>
             <img src={draw.draw_image} alt={draw.draw_name} className="w-full h-full object-cover rounded-lg p-1" />
             <div className="flex justify-between">
-            <h2 className="text-black px-1">Start Date: {new Date(draw.start_date).toLocaleDateString()}</h2>
-            <h2 className="text-black px-1">End Date: {new Date(draw.end_date).toLocaleDateString()}</h2>
+                <h2 className="text-black px-1">Start Date: {new Date(draw.start_date).toLocaleDateString()}</h2>
+                <h2 className="text-black px-1">End Date: {new Date(draw.end_date).toLocaleDateString()}</h2>
             </div>
         </div>
     );

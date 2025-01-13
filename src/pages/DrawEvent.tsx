@@ -32,6 +32,7 @@ export default function DrawEvent() {
         WebApp.BackButton.show();
 
         WebApp.BackButton.onClick(() => {
+            // go back
             window.history.back();
         });
 

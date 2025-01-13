@@ -58,13 +58,13 @@ function App() {
                         Ongoing Events
                     </div>
                     <div
-                        onClick={() => navigate("/rewards")}
+                        onClick={() => navigate("/participated-rewards")}
                         className="py-3 bg-[#37474F] min-w-[300px] text-center rounded-md text-white hover:font-bold hover:cursor-pointer max-w-[300px]"
                     >
                         Participated Events
                     </div>
                     <div
-                        onClick={() => navigate("/rewards")}
+                        onClick={() => navigate("/prize-i-won")}
                         className="py-3 bg-[#37474F] min-w-[300px] text-center rounded-md text-white hover:font-bold hover:cursor-pointer max-w-[300px]"
                     >
                         Prize I Won

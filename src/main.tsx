@@ -8,12 +8,14 @@ import { UserProvider } from '../src/context/UserContext.js';
 import {
     Profile,
     Privacy,
-    AvailableRewards,
-    OngoingRewards,
     Participated,
     Merchant,
     DrawEvent,
     RewardEvent,
+    AvailableEvents,
+    OngoingEvents,
+    ParticipatedEvents,
+    PrizeIWon
 } from "./pages/index";
 import './i18n'; // Import the i18n configuration
 const Root = () => {
@@ -25,8 +27,10 @@ const Root = () => {
         <BrowserRouter>
         <Routes>
             <Route path="/" element={<App />} />
-            <Route path="/available-rewards" element={<AvailableRewards />} />
-            <Route path="/ongoing-rewards" element={<OngoingRewards />} />
+            <Route path="/available-rewards" element={<AvailableEvents />} />
+            <Route path="/ongoing-rewards" element={<OngoingEvents />} />
+            <Route path="/participated-rewards" element={<ParticipatedEvents />} />
+            <Route path="/prize-i-won" element={<PrizeIWon />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/participated" element={<Participated />} />
