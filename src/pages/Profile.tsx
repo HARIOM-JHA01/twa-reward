@@ -19,12 +19,9 @@ export default function Profile() {
     const { setUser } = userContext;
 
     useEffect(() => {
-        // const initData = WebApp.initDataUnsafe;
-        // const telegram_id = initData?.user?.id || 'Fan_tai663';
         const telegram_id = 'Fan_tai663';
 
         if (telegram_id) {
-            // Fetch user data from the API
             fetch('https://bonusforyou.org/api/user/login', {
                 method: 'POST',
                 headers: {
@@ -61,18 +58,17 @@ export default function Profile() {
             setError('Telegram ID not found.');
         }
 
-        // Show the Back Button
         WebApp.BackButton.show();
-
-        // Set Back Button click event
         WebApp.BackButton.onClick(() => {
             window.history.back();
-            // WebApp.close();
         });
 
-        // Clean up Back Button listener on component unmount
         return () => {
-            // WebApp.BackButton.offClick();
+            WebApp.BackButton.offClick(
+                () => {
+                    window.history.back();
+                },
+            );
         };
     }, []);
 
@@ -85,7 +81,7 @@ export default function Profile() {
                 ) : (
                     <>
                         <div className="flex flex-col gap-4 w-[90%] max-w-md bg-yellow-300 p-4 rounded-lg shadow-md">
-                            <label htmlFor="" className="font-semibold text-xl">First Name</label>
+                            <label className="font-semibold text-xl text-black">First Name</label>
                             <input
                                 type="text"
                                 value={firstName || ''}
@@ -93,7 +89,7 @@ export default function Profile() {
                                 placeholder="First Name"
                                 readOnly
                             />
-                            <label htmlFor="" className="font-semibold text-xl">Last Name</label>
+                            <label className="font-semibold text-xl text-black">Last Name</label>
                             <input
                                 type="text"
                                 value={lastName || ''}
@@ -101,15 +97,15 @@ export default function Profile() {
                                 placeholder="Last Name"
                                 readOnly
                             />
-                            <label htmlFor="" className="font-semibold text-xl">Telegram ID</label>
+                            <label className="font-semibold text-xl text-black">Telegram ID</label>
                             <input
                                 type="text"
-                                value={telegramId }
+                                value={telegramId}
                                 className="bg-white border border-gray-300 rounded px-4 py-2 text-black"
                                 placeholder="Telegram ID"
                                 readOnly
                             />
-                            <label htmlFor="" className="font-semibold text-xl">Country</label>
+                            <label className="font-semibold text-xl text-black">Country</label>
                             <input
                                 type="text"
                                 value={countryName || ''}
@@ -117,7 +113,7 @@ export default function Profile() {
                                 placeholder="Country"
                                 readOnly
                             />
-                            <label htmlFor="" className="font-semibold text-xl">Participant Code</label>
+                            <label className="font-semibold text-xl text-black">Participant Code</label>
                             <input
                                 type="text"
                                 value={participantCode || ''}

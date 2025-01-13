@@ -8,10 +8,14 @@ import Merchant from "./Merchant";
 import DrawEvent from "./DrawEvent";
 import RewardEvent from "./RewardEvent";
 import PrizeIWon from "./PrizeIWon";
+import ParticipatedDrawEvent from "./ParticipatedDetailDraw";
+import ParticipatedRewardEvent from "./ParticipatedReward";
 
 export {
     Profile, Privacy, AvailableEvents,
     OngoingEvents, ParticipatedEvents,
     Participated, Merchant, DrawEvent, RewardEvent,
-    PrizeIWon
+    PrizeIWon,
+    ParticipatedDrawEvent,
+    ParticipatedRewardEvent
 };

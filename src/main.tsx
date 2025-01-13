@@ -15,7 +15,9 @@ import {
     AvailableEvents,
     OngoingEvents,
     ParticipatedEvents,
-    PrizeIWon
+    PrizeIWon,
+    ParticipatedDrawEvent,
+    ParticipatedRewardEvent
 } from "./pages/index";
 import './i18n'; // Import the i18n configuration
 const Root = () => {
@@ -37,6 +39,8 @@ const Root = () => {
             <Route path="/merchant" element={<Merchant />} />
             <Route path="/draw-event/:id" element={<DrawEvent />} />
             <Route path="/reward-event/:id" element={<RewardEvent />} />
+            <Route path="/participated-draw-event/:id" element={<ParticipatedDrawEvent />} />
+            <Route path="/participated-reward-event/:id" element={<ParticipatedRewardEvent />} />
         </Routes>
         </BrowserRouter>
     );
