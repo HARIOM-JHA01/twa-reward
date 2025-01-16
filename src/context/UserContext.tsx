@@ -1,8 +1,7 @@
-import { createContext, useState, ReactNode } from 'react';
+import React, { createContext, useState, ReactNode } from 'react';
 
-// Define an interface for the user data
-interface User {
-    id: string;
+interface UserData {
+    id: number | null;
     name: string;
     telegramId: string;
     country: string;
@@ -10,22 +9,40 @@ interface User {
 }
 
 interface UserContextType {
-    user: User | null;
-    setUser: React.Dispatch<React.SetStateAction<User | null>>;
+    user: UserData;
+    setUser: (user: UserData) => void;
+    isLoggedIn: boolean;
+    setIsLoggedIn: (isLoggedIn: boolean) => void
 }
 
-export const UserContext = createContext<UserContextType | undefined>(undefined);
+const defaultUser: UserData = {
+    id: null,
+    name: "",
+    telegramId: "",
+    country: "",
+    uniqueId: "",
+}
+const defaultContext: UserContextType = {
+    user: defaultUser,
+    setUser: () => { },
+    isLoggedIn: false,
+    setIsLoggedIn: () => { }
+}
+
+
+export const UserContext = createContext<UserContextType>(defaultContext);
 
 interface UserProviderProps {
     children: ReactNode;
 }
 
-export function UserProvider({ children }: UserProviderProps) {
-    const [user, setUser] = useState<User | null>(null);
+export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
+    const [user, setUser] = useState<UserData>(defaultUser);
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
 
     return (
-        <UserContext.Provider value={{ user, setUser }}>
+        <UserContext.Provider value={{ user, setUser, isLoggedIn, setIsLoggedIn }}>
             {children}
         </UserContext.Provider>
     );
-}
+};

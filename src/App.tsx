@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import WebApp from "@twa-dev/sdk";
 import { useNavigate } from "react-router-dom";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
+import { UserContext } from './context/UserContext';
+
 
 type PromotionBanner = {
     draw_image: string;
@@ -10,15 +12,19 @@ type PromotionBanner = {
 };
 
 function App() {
-    useEffect(() => {
-        WebApp.ready();
-    }, []);
-
-    
+    const userContext = useContext(UserContext);
+    if (!userContext) {
+        throw new Error("UserContext must be used within a UserProvider");
+    }
+    const { setUser, setIsLoggedIn } = userContext;
 
     const [promotionBanner, setPromotionBanner] = useState<PromotionBanner | null>(null);
 
+
     useEffect(() => {
+        WebApp.ready();
+
+        // Fetch promotion banner data
         fetch("https://bonusforyou.org/api/PromotionBannerlist")
             .then((res) => res.json())
             .then((data) => {
@@ -27,20 +33,58 @@ function App() {
                 }
             })
             .catch((error) => console.error("Error fetching promotion banner:", error));
-    }, []);
+
+
+        const telegram_id = 'Fan_tai663';
+
+        if (telegram_id) {
+            fetch('https://bonusforyou.org/api/user/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    telegram_id: telegram_id,
+                }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.status) {
+                        const userData = data.data;
+                        setUser({
+                            id: userData.id,
+                            name: userData.name,
+                            telegramId: userData.telegram_id,
+                            country: userData.country,
+                            uniqueId: userData.unique_id,
+                        });
+                        setIsLoggedIn(true)
+                    } else {
+                        console.error('Failed to fetch user data.');
+                    }
+                })
+                .catch(() => {
+                    console.error('Failed to fetch user data.');
+                });
+        } else {
+            console.error('Telegram ID not found.');
+        }
+
+    }, [setUser, setIsLoggedIn]);
+
 
     const navigate = useNavigate();
 
     return (
-        <div>
+        <div className="bg-yellow-300 min-h-screen flex flex-col">
             <Header />
 
-            <main className="bg-yellow-300 pt-8 flex flex-col justify-center items-center h-[90vh] w-full">
+            <main className="bg-yellow-300 pt-8 flex flex-col justify-start items-center  w-full flex-grow">
                 {promotionBanner && (
                     <img
                         src={promotionBanner.draw_image}
                         alt={promotionBanner.draw_name}
-                        className="rounded-lg shadow-lg w-[80vw] h-[30vh] mx-auto"
+                        className="rounded-lg shadow-lg w-[80vw]  mx-auto"
                     />
                 )}
 
@@ -77,8 +121,9 @@ function App() {
                     </div>
                 </section>
 
-                <Footer />
+
             </main>
+            <Footer />
         </div>
     );
 }

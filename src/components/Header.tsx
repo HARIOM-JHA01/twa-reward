@@ -1,4 +1,4 @@
-import {  useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -6,45 +6,50 @@ const Header = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const router = useNavigate();
     const { i18n } = useTranslation();
+    const logoImage = "/bonus-logo.png";
+    const privacyImage = "/privacy.png";
+    const languageImage = "/hnkf.png";
 
-    const toggleLanguage = () => {
+    const handleToggleLanguage = () => {
         const newLanguage = i18n.language === 'en' ? 'zh' : 'en';
         i18n.changeLanguage(newLanguage);
     };
 
 
     return (
-        <header className="flex justify-between items-center pt-3 pl-3 pr-2 bg-[#37474F] pb-3">
-            <img src="./bonus-logo.png" alt="" width={"30px"} height={"30px"} />
+        <header className="flex justify-between items-center pt-3 pl-3 pr-2 bg-[#37474F] pb-3 overflow-x-auto">
+            <img src={logoImage} alt="Bonus For You Logo" onError={(e: any) => { e.target.src = 'fallback-logo.png' }} width={"30px"} height={"30px"} className="flex-shrink-0" />
             <h1
                 onClick={() => router("/")}
-                className="text-white font-semibold cursor-pointer"
+                className="text-white font-semibold cursor-pointer text-overflow-ellipsis whitespace-nowrap overflow-hidden"
             >
                 BonusForYou
             </h1>
-            
+
             <div className="relative flex gap-2">
-            <img
-                src="./hnkf.png"
-                alt="Toggle Language"
-                width={"30px"}
-                height={"30px"}
-                onClick={toggleLanguage}
-                className="cursor-pointer "
-            />
                 <img
-                    src="./privacy.png"
-                    alt=""
+                    src={languageImage}
+                    alt="Toggle Language"
+                    width={"30px"}
+                    height={"30px"}
+                    onClick={handleToggleLanguage}
+                    className="cursor-pointer"
+                />
+                <img
+                    src={privacyImage}
+                    alt="Privacy and More Options"
                     width={"30px"}
                     height={"30px"}
                     onClick={() => setDropdownOpen(!dropdownOpen)}
                     className="cursor-pointer"
+                    aria-haspopup="true"
+                    aria-expanded={dropdownOpen}
                 />
                 {dropdownOpen && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded shadow-lg">
+                    <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded shadow-lg" role="menu">
                         <ul>
                             <li
-                                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                className="px-4 py-2 hover:bg-gray-100 cursor-pointer" role="menuitem"
                                 onClick={() => {
                                     setDropdownOpen(false);
                                     router("/participated");
@@ -53,7 +58,7 @@ const Header = () => {
                                 Participated
                             </li>
                             <li
-                                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                className="px-4 py-2 hover:bg-gray-100 cursor-pointer" role="menuitem"
                                 onClick={() => {
                                     setDropdownOpen(false);
                                     router("/merchant");
@@ -62,7 +67,7 @@ const Header = () => {
                                 Merchant
                             </li>
                             <li
-                                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                className="px-4 py-2 hover:bg-gray-100 cursor-pointer" role="menuitem"
                                 onClick={() => {
                                     setDropdownOpen(false);
                                     router("/privacy");

@@ -32,7 +32,7 @@ const Footer = () => {
                     <img
                         src={banner.image}
                         alt={`Advertisement ${banner.id}`}
-                        className="rounded-lg shadow-lg w-[80vw] h-[120px] mx-auto"
+                        className="rounded-lg shadow-lg w-[80vw] max-h-[150px] object-contain mx-auto"
                     />
                 </a>
             ))}
