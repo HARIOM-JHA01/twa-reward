@@ -22,6 +22,7 @@ interface RewardDetail {
     join_user: number;
     verifiaction_link_0?: string;
     Prize_list: Prize[];
+    prize_detail_link?: string;
 }
 
 export default function RewardEvent() {
@@ -64,7 +65,7 @@ export default function RewardEvent() {
         const currentDate = new Date();
         const start = new Date(startDate);
         const end = new Date(endDate);
-        setIsWithinDateRange(currentDate >= start && currentDate <= end);
+        // setIsWithinDateRange(currentDate >= start && currentDate <= end);
         setIsWithinDateRange(true);
     };
 

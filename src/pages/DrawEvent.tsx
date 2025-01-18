@@ -24,6 +24,7 @@ interface RewardDetail {
     join_user: number;
     verifiaction_link_0?: string;
     Prize_list: Prize[];
+    prize_detail_link?: string;
 }
 
 export default function DrawEvent() {
@@ -56,6 +57,7 @@ export default function DrawEvent() {
                     if (data.status) {
                         const rewardData = data.data;
                         setRewardDetail(rewardData);
+                        rewardData.verification_link_0 = data.data.prize_detail_link;
                         // checkDateRange(rewardData.start_date, rewardData.end_date);
                     } else {
                         console.error("Error fetching reward details:", data.message);
@@ -67,13 +69,13 @@ export default function DrawEvent() {
         }
     }, [id]);
 
-    // const checkDateRange = () => {
-    //     // const currentDate = new Date();
-    //     // const start = new Date(startDate);
-    //     // const end = new Date(endDate);
-    //     // setIsWithinDateRange(currentDate >= start && currentDate <= end);
-    // };
+    const checkDateRange = () => {
+        // const currentDate = new Date();
+        // const start = new Date(startDate);
+        // const end = new Date(endDate);
+        // setIsWithinDateRange(currentDate >= start && currentDate <= end);
         setIsWithinDateRange(true);
+    };
 
     const handleJoinClick = () => {
         if (rewardDetail?.verifiaction_link_0) {
@@ -119,7 +121,7 @@ export default function DrawEvent() {
             <Header />
             <main className="bg-yellow-300 flex flex-col w-full min-h-screen p-4">
                 <img src={rewardDetail.draw_image} alt={rewardDetail.draw_name} className="rounded my-3" />
-                <h2 className="text-center text-black font-bold">Event Title:</h2>
+                <h2 className="text-center text-black font-bold">Event Title: {rewardDetail.verifiaction_link_0}</h2>
                 <p className="text-center text-black border border-black p-2 rounded-lg">{rewardDetail.draw_name}</p>
                 <h2 className="text-center text-black font-bold">Events Detail and Join Channel as Subscriber:</h2>
                 <a
@@ -158,7 +160,7 @@ export default function DrawEvent() {
                 <div className="flex justify-between items-center my-3">
                     <button
                         onClick={handleJoinClick}
-                        className={`bg-green-600 p-2 rounded-lg text-white font-semibold ${isWithinDateRange && rewardDetail.verifiaction_link_0 ? "" : "opacity-50 cursor-not-allowed"}`}
+                        className={`bg-green-600 p-2 rounded-lg text-white font-semibold ${ true ? "" : "opacity-50 cursor-not-allowed"}`}
                         disabled={!isWithinDateRange || !rewardDetail.verifiaction_link_0}
                     >
                         VIEW POST TO JOIN PROGRAM
