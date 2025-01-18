@@ -56,7 +56,7 @@ export default function DrawEvent() {
                     if (data.status) {
                         const rewardData = data.data;
                         setRewardDetail(rewardData);
-                        checkDateRange(rewardData.start_date, rewardData.end_date);
+                        // checkDateRange(rewardData.start_date, rewardData.end_date);
                     } else {
                         console.error("Error fetching reward details:", data.message);
                     }
@@ -67,13 +67,13 @@ export default function DrawEvent() {
         }
     }, [id]);
 
-    const checkDateRange = (startDate: string, endDate: string) => {
-        // const currentDate = new Date();
-        // const start = new Date(startDate);
-        // const end = new Date(endDate);
-        // setIsWithinDateRange(currentDate >= start && currentDate <= end);
+    // const checkDateRange = () => {
+    //     // const currentDate = new Date();
+    //     // const start = new Date(startDate);
+    //     // const end = new Date(endDate);
+    //     // setIsWithinDateRange(currentDate >= start && currentDate <= end);
+    // };
         setIsWithinDateRange(true);
-    };
 
     const handleJoinClick = () => {
         if (rewardDetail?.verifiaction_link_0) {
