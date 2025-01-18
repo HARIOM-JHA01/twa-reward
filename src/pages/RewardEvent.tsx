@@ -65,6 +65,7 @@ export default function RewardEvent() {
         const start = new Date(startDate);
         const end = new Date(endDate);
         setIsWithinDateRange(currentDate >= start && currentDate <= end);
+        setIsWithinDateRange(true);
     };
 
     const handleJoinClick = () => {
