@@ -1,8 +1,10 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import WebApp from "@twa-dev/sdk";
+import { UserContext } from "../context/UserContext";
+// import { useTranslation } from "react-i18next";
 
 interface Prize {
     id: number;
@@ -20,35 +22,93 @@ interface RewardDetail {
     draw_detail: string;
     channel_link: string;
     join_user: number;
-    verifiaction_link_0: string;
+    verifiaction_link_0?: string;
     Prize_list: Prize[];
 }
 
 export default function DrawEvent() {
     const { id } = useParams<{ id: string }>();
     const [rewardDetail, setRewardDetail] = useState<RewardDetail | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [verificationLink, setVerificationLink] = useState("");
+    const [isWithinDateRange, setIsWithinDateRange] = useState(false);
+    const userContext = useContext(UserContext);
+    if (!userContext) {
+        throw new Error("UserContext must be used within a UserProvider");
+    }
+    const { user } = userContext;
 
     useEffect(() => {
         WebApp.BackButton.show();
-
         WebApp.BackButton.onClick(() => {
-            // go back
             window.history.back();
         });
 
         if (id) {
             fetch(`https://bonusforyou.org/api/user/drawlistsingle/${id}`)
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
                 .then(data => {
                     if (data.status) {
-                        setRewardDetail(data.data);
+                        const rewardData = data.data;
+                        setRewardDetail(rewardData);
+                        checkDateRange(rewardData.start_date, rewardData.end_date);
                     } else {
                         console.error("Error fetching reward details:", data.message);
                     }
                 })
-                .catch(error => console.error("Error fetching reward details:", error));
+                .catch(error => {
+                    console.error("Error fetching reward details:", error);
+                });
         }
     }, [id]);
+
+    const checkDateRange = (startDate: string, endDate: string) => {
+        // const currentDate = new Date();
+        // const start = new Date(startDate);
+        // const end = new Date(endDate);
+        // setIsWithinDateRange(currentDate >= start && currentDate <= end);
+        setIsWithinDateRange(true);
+    };
+
+    const handleJoinClick = () => {
+        if (rewardDetail?.verifiaction_link_0) {
+            window.open(rewardDetail.verifiaction_link_0, "_blank");
+        }
+        setIsModalOpen(true);
+    };
+
+    const handleModalSubmit = () => {
+        if (rewardDetail) {
+            const payload = {
+                user_id: user.id,
+                Draw_id: id,
+                Verification_link: verificationLink,
+            };
+
+            fetch(`https://bonusforyou.org/api/user/joinDraw`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status) {
+                        console.log("Joined successfully");
+                        setIsModalOpen(false);
+                    } else {
+                        console.error("Error joining draw:", data.message);
+                    }
+                })
+                .catch(error => console.error("Error joining draw:", error));
+        }
+    };
 
     if (!rewardDetail) {
         return <div>Loading...</div>;
@@ -58,14 +118,18 @@ export default function DrawEvent() {
         <div className="bg-yellow-300">
             <Header />
             <main className="bg-yellow-300 flex flex-col w-full min-h-screen p-4">
-                <a href="#" className="underline text-center text-2xl text-orange-500">Join Channel and View Details</a>
                 <img src={rewardDetail.draw_image} alt={rewardDetail.draw_name} className="rounded my-3" />
-                <h2 className="text-center text-black font-bold">Event Title:-</h2>
+                <h2 className="text-center text-black font-bold">Event Title:</h2>
                 <p className="text-center text-black border border-black p-2 rounded-lg">{rewardDetail.draw_name}</p>
                 <h2 className="text-center text-black font-bold">Events Detail and Join Channel as Subscriber:</h2>
                 <a
-                    href="{rewardDetail.channel_link}"
-                    className="text-center text-orange-400 border border-black p-2 rounded-lg">{rewardDetail.channel_link}</a>
+                    href={rewardDetail.channel_link}
+                    className="text-center text-orange-400 border border-black p-2 rounded-lg"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    {rewardDetail.channel_link}
+                </a>
                 <h2 className="text-center text-black font-bold">Prizes:</h2>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 text-center text-black p-2 rounded-lg border border-black">
                     {rewardDetail.Prize_list.map((prize, index) => (
@@ -76,7 +140,6 @@ export default function DrawEvent() {
                         </li>
                     ))}
                 </ul>
-
                 <h2 className="text-center text-black font-bold">Early Birds Prize:</h2>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 text-center text-black p-2 rounded-lg border border-black">
                     {rewardDetail.Prize_list.map((prize, index) => (
@@ -87,35 +150,52 @@ export default function DrawEvent() {
                         </li>
                     ))}
                 </ul>
-
                 <h2 className="text-center text-black font-bold">Event Brief:</h2>
                 <p
                     className="text-center text-black border border-black p-2 rounded-lg"
                     dangerouslySetInnerHTML={{ __html: rewardDetail.draw_detail }}
                 />
-
                 <div className="flex justify-between items-center my-3">
-                    <div
-                        onClick={() => {
-                            window.open(rewardDetail.verifiaction_link_0, '_blank');
-                            console.log(rewardDetail.verifiaction_link_0);
-                        }}
-                        className="bg-green-600 p-2 rounded-lg text-white font-semibold"
+                    <button
+                        onClick={handleJoinClick}
+                        className={`bg-green-600 p-2 rounded-lg text-white font-semibold ${isWithinDateRange && rewardDetail.verifiaction_link_0 ? "" : "opacity-50 cursor-not-allowed"}`}
+                        disabled={!isWithinDateRange || !rewardDetail.verifiaction_link_0}
                     >
                         VIEW POST TO JOIN PROGRAM
-                    </div>
-                    <div className="rounded-full w-12 h-12 bg-red-500 justify-center items-center flex">
-                        <img className="w-6 h-6" src="/share.png" alt="" />
+                    </button>
+                    <div
+                        className="rounded-full w-12 h-12 bg-red-500 justify-center items-center flex"
+                        onClick={() => {
+                            navigator.clipboard.writeText(rewardDetail.channel_link);
+                        }}
+                    >
+                        <img className="w-6 h-6" src="/share.png" alt="Share" />
                     </div>
                 </div>
-
-                <h3 className="text-black">User Left to Join: {rewardDetail.join_user}</h3>
-
+                {isWithinDateRange && <h3 className="text-black">User Left to Join: {rewardDetail.join_user}</h3>}
                 <p className="text-center text-black text-sm p-4 rounded-lg">
-                    View post, Join Channel and copy paste link, comebak and paste link to bonusforyou
+                    View post, Join Channel and copy paste link, comeback and paste link to bonusforyou
                 </p>
-
                 <Footer />
+                {isModalOpen && (
+                    <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
+                        <div className="bg-white p-4 rounded-lg">
+                            <h2 className="text-center text-black font-bold">Paste the verification link</h2>
+                            <input
+                                type="text"
+                                value={verificationLink}
+                                onChange={(e) => setVerificationLink(e.target.value)}
+                                className="w-full p-2 border border-gray-300 rounded mt-2"
+                            />
+                            <button
+                                onClick={handleModalSubmit}
+                                className="bg-green-600 p-2 rounded-lg text-white font-semibold mt-2"
+                            >
+                                Submit
+                            </button>
+                        </div>
+                    </div>
+                )}
             </main>
         </div>
     );

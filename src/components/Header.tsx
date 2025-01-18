@@ -6,6 +6,7 @@ const Header = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const router = useNavigate();
     const { i18n } = useTranslation();
+    const { t } = useTranslation();
     const logoImage = "/bonus-logo.png";
     const privacyImage = "/privacy.png";
     const languageImage = "/hnkf.png";
@@ -23,7 +24,7 @@ const Header = () => {
                 onClick={() => router("/")}
                 className="text-white font-semibold cursor-pointer text-overflow-ellipsis whitespace-nowrap overflow-hidden"
             >
-                BonusForYou
+                {t('common.appName')}
             </h1>
 
             <div className="relative flex gap-2">

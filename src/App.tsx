@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import { UserContext } from './context/UserContext';
+import { useTranslation } from "react-i18next";
 
 
 type PromotionBanner = {
@@ -20,6 +21,7 @@ function App() {
 
     const [promotionBanner, setPromotionBanner] = useState<PromotionBanner | null>(null);
 
+    const { t } = useTranslation();
 
     useEffect(() => {
         WebApp.ready();
@@ -93,31 +95,31 @@ function App() {
                         onClick={() => navigate("/available-rewards")}
                         className="py-3 bg-[#37474F] min-w-[300px] text-center rounded-md text-white hover:font-bold hover:cursor-pointer max-w-[300px]"
                     >
-                        Available Events
+                        {t('app.availableEvents')}
                     </div>
                     <div
                         onClick={() => navigate("/ongoing-rewards")}
                         className="py-3 bg-[#37474F] min-w-[300px] text-center rounded-md text-white hover:font-bold hover:cursor-pointer max-w-[300px]"
                     >
-                        Ongoing Events
+                        {t('app.ongoingEvents')}
                     </div>
                     <div
                         onClick={() => navigate("/participated-rewards")}
                         className="py-3 bg-[#37474F] min-w-[300px] text-center rounded-md text-white hover:font-bold hover:cursor-pointer max-w-[300px]"
                     >
-                        Participated Events
+                        {t('app.participatedEvents')}
                     </div>
                     <div
                         onClick={() => navigate("/prize-i-won")}
                         className="py-3 bg-[#37474F] min-w-[300px] text-center rounded-md text-white hover:font-bold hover:cursor-pointer max-w-[300px]"
                     >
-                        Prize I Won
+                        {t('app.prizeIWon')}
                     </div>
                     <div
                         onClick={() => navigate("/profile")}
                         className="py-3 bg-[#37474F] min-w-[300px] text-center rounded-md text-white hover:font-bold hover:cursor-pointer max-w-[300px]"
                     >
-                        My Profile
+                        {t('app.myProfile')}
                     </div>
                 </section>
 
