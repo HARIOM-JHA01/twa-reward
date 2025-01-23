@@ -86,11 +86,11 @@ function App() {
                     <img
                         src={promotionBanner.draw_image}
                         alt={promotionBanner.draw_name}
-                        className="rounded-lg shadow-lg w-[80vw]  mx-auto"
+                        className="rounded-lg shadow-lg w-[80vw] h-[14vh]  mx-auto"
                     />
                 )}
 
-                <section className="flex flex-col gap-4 mt-4 items-center">
+                <section className="flex flex-col gap-4 my-auto items-center">
                     <div
                         onClick={() => navigate("/available-rewards")}
                         className="py-3 bg-[#37474F] min-w-[300px] text-center rounded-md text-white hover:font-bold hover:cursor-pointer max-w-[300px]"

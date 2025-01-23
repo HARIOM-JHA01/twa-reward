@@ -46,13 +46,13 @@ export default function AvailableEvents() {
                 <section>
                     <div className="flex justify-center gap-4">
                         <div
-                            className={`py-2 px-4 rounded-md cursor-pointer ${activeTab === "available" ? " text-black" : "bg-yellow-600 text-white"}`}
+                            className={`py-2 px-4 rounded-md cursor-pointer ${activeTab === "available" ? " bg-yellow-600 text-white" : "text-black"}`}
                             onClick={() => setActiveTab("available")}
                         >
                             BonusForYou
                         </div>
                         <div
-                            className={`py-2 px-4 rounded-md cursor-pointer ${activeTab === "ongoing" ? " text-black" : " bg-yellow-600 text-white"}`}
+                            className={`py-2 px-4 rounded-md cursor-pointer ${activeTab === "ongoing" ? " bg-yellow-600 text-white" : " text-black"}`}
                             onClick={() => setActiveTab("ongoing")}
                         >
                             Rewards
