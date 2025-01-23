@@ -6,7 +6,6 @@ import Header from "./components/Header";
 import { UserContext } from './context/UserContext';
 import { useTranslation } from "react-i18next";
 
-
 type PromotionBanner = {
     draw_image: string;
     draw_name: string;
@@ -35,7 +34,6 @@ function App() {
                 }
             })
             .catch((error) => console.error("Error fetching promotion banner:", error));
-
 
         const telegram_id = 'Fan_tai663';
 
@@ -73,7 +71,6 @@ function App() {
         }
 
     }, [setUser, setIsLoggedIn]);
-
 
     const navigate = useNavigate();
 
@@ -122,8 +119,6 @@ function App() {
                         {t('app.myProfile')}
                     </div>
                 </section>
-
-
             </main>
             <Footer />
         </div>

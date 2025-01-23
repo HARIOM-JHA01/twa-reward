@@ -16,9 +16,8 @@ const Header = () => {
         i18n.changeLanguage(newLanguage);
     };
 
-
     return (
-        <header className="flex justify-between items-center pt-3 pl-3 pr-2 bg-[#37474F] pb-3 overflow-x-auto relative">
+        <header className="flex justify-between items-center pt-3 pl-3 pr-2 bg-[#37474F] pb-3 overflow-x-auto relative z-50">
             <img src={logoImage} alt="Bonus For You Logo" onError={(e: any) => { e.target.src = 'fallback-logo.png' }} width={"30px"} height={"30px"} className="flex-shrink-0" />
             <h1
                 onClick={() => router("/")}
@@ -48,44 +47,43 @@ const Header = () => {
                 />
                 {dropdownOpen && (
                     <div
-                    className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded shadow-lg z-50"
-                    role="menu"
-                    style={{ top: "100%", right: 0 }}
-                >
-                    <ul>
-                        <li
-                            className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                            role="menuitem"
-                            onClick={() => {
-                                setDropdownOpen(false);
-                                router("/participated");
-                            }}
-                        >
-                            Participated
-                        </li>
-                        <li
-                            className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                            role="menuitem"
-                            onClick={() => {
-                                setDropdownOpen(false);
-                                router("/merchant");
-                            }}
-                        >
-                            Merchant
-                        </li>
-                        <li
-                            className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                            role="menuitem"
-                            onClick={() => {
-                                setDropdownOpen(false);
-                                router("/privacy");
-                            }}
-                        >
-                            Privacy Policy
-                        </li>
-                    </ul>
-                </div>
-                
+                        className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded shadow-lg z-[60]"
+                        role="menu"
+                        style={{ top: "100%", right: 0 }}
+                    >
+                        <ul>
+                            <li
+                                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                role="menuitem"
+                                onClick={() => {
+                                    setDropdownOpen(false);
+                                    router("/participated");
+                                }}
+                            >
+                                Participated
+                            </li>
+                            <li
+                                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                role="menuitem"
+                                onClick={() => {
+                                    setDropdownOpen(false);
+                                    router("/merchant");
+                                }}
+                            >
+                                Merchant
+                            </li>
+                            <li
+                                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                role="menuitem"
+                                onClick={() => {
+                                    setDropdownOpen(false);
+                                    router("/privacy");
+                                }}
+                            >
+                                Privacy Policy
+                            </li>
+                        </ul>
+                    </div>
                 )}
             </div>
         </header>
