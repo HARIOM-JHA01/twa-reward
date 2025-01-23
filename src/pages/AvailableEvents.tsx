@@ -77,8 +77,8 @@ export default function AvailableEvents() {
                         <div
                             className={`py-2 px-4 rounded-md cursor-pointer ${
                                 activeTab === "available"
-                                    ? " text-black"
-                                    : "bg-yellow-600 text-white"
+                                    ? "bg-yellow-600 text-white"
+                                    : "text-black"
                             }`}
                             onClick={() => setActiveTab("available")}
                         >
@@ -87,8 +87,8 @@ export default function AvailableEvents() {
                         <div
                             className={`py-2 px-4 rounded-md cursor-pointer ${
                                 activeTab === "ongoing"
-                                    ? " text-black"
-                                    : " bg-yellow-600 text-white"
+                                    ? "bg-yellow-600 text-white"
+                                    : "text-black"
                             }`}
                             onClick={() => setActiveTab("ongoing")}
                         >
@@ -141,10 +141,10 @@ const RewardCard: React.FC<RewardCardProps> = ({ reward, navigate }) => {
             />
             <div className="flex justify-between">
                 <h2 className="text-black px-1">
-                    Start Date: {new Date(reward.start_date).toLocaleDateString()}
+                    Start Date: {reward.start_date || "Not Available"}
                 </h2>
                 <h2 className="text-black px-1">
-                    End Date: {new Date(reward.end_date).toLocaleDateString()}
+                    End Date: {reward.end_date || "Not Available"}
                 </h2>
             </div>
         </div>
@@ -170,10 +170,10 @@ const DrawCard: React.FC<DrawCardProps> = ({ draw, navigate }) => {
             />
             <div className="flex justify-between">
                 <h2 className="text-black px-1">
-                    Start Date: {new Date(draw.start_date).toLocaleDateString()}
+                    Start Date: {draw.start_date || "Not Available"}
                 </h2>
                 <h2 className="text-black px-1">
-                    End Date: {new Date(draw.end_date).toLocaleDateString()}
+                    End Date: {draw.end_date || "Not Available"}
                 </h2>
             </div>
         </div>

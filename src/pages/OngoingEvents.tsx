@@ -46,13 +46,13 @@ export default function OngoingEvents() {
                 <section>
                     <div className="flex justify-center gap-4">
                     <div
-                            className={`py-2 px-4 rounded-md cursor-pointer ${activeTab === "available" ? " text-black" : "bg-yellow-600 text-white"}`}
+                            className={`py-2 px-4 rounded-md cursor-pointer ${activeTab === "available" ? " bg-yellow-600 text-white" : "text-black"}`}
                             onClick={() => setActiveTab("available")}
                         >
                             BonusForYou
                         </div>
                         <div
-                            className={`py-2 px-4 rounded-md cursor-pointer ${activeTab === "ongoing" ? " text-black" : " bg-yellow-600 text-white"}`}
+                            className={`py-2 px-4 rounded-md cursor-pointer ${activeTab === "ongoing" ? " bg-yellow-600 text-white" : " text-black"}`}
                             onClick={() => setActiveTab("ongoing")}
                         >
                             Rewards
@@ -97,8 +97,8 @@ export const RewardCard: React.FC<RewardCardProps> = ({ reward }) => {
             <h2 className="text-black px-1">{reward.reward_name}</h2>
             <img src={reward.reward_image} alt={reward.reward_name} className="w-full h-full object-cover rounded-lg p-1" />
             <div className="flex justify-between">
-                <h2 className="text-black px-1">Start Date: {new Date(reward.start_date).toLocaleDateString()}</h2>
-                <h2 className="text-black px-1">End Date: {new Date(reward.end_date).toLocaleDateString()}</h2>
+                <h2 className="text-black px-1">Start Date: {reward.start_date}</h2>
+                <h2 className="text-black px-1">End Date: {reward.end_date}</h2>
 
             </div>
         </div>

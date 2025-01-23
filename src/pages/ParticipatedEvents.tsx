@@ -101,8 +101,8 @@ export const RewardCard: React.FC<RewardCardProps> = ({ reward }) => {
             <h2 className="text-black px-1">{reward.reward_name}</h2>
             <img src={reward.reward_image} alt={reward.reward_name} className="w-full h-full object-cover rounded-lg p-1" />
             <div className="flex justify-between">
-                <h2 className="text-black px-1">Start Date: {new Date(reward.start_date).toLocaleDateString()}</h2>
-                <h2 className="text-black px-1">End Date: {new Date(reward.end_date).toLocaleDateString()}</h2>
+                <h2 className="text-black px-1">Start Date: {reward.start_date}</h2>
+                <h2 className="text-black px-1">End Date: {reward.end_date}</h2>
 
             </div>
         </div>

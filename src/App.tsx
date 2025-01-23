@@ -78,7 +78,7 @@ function App() {
     const navigate = useNavigate();
 
     return (
-        <div className="bg-yellow-300 min-h-screen flex flex-col">
+        <div className="bg-yellow-300 min-h-screen flex flex-col z-10">
             <Header />
 
             <main className="bg-yellow-300 pt-8 flex flex-col justify-start items-center  w-full flex-grow">
