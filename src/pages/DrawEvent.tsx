@@ -14,10 +14,12 @@ export default function DrawEvent() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [verificationLink, setVerificationLink] = useState("");
     const [isWithinDateRange, setIsWithinDateRange] = useState(false);
-    const [countdown, setCountdown] = useState<string>(""); // State to track countdown
-        const [showSuccessModal, setShowSuccessModal] = useState(false);
-        const userContext = useContext(UserContext);
-
+    const [countdown, setCountdown] = useState<string>("");
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [showErrorModal, setShowErrorModal] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [hasJoined, setHasJoined] = useState(false); // New state to track if the user has joined
+    const userContext = useContext(UserContext);
 
     if (!userContext) {
         throw new Error("UserContext must be used within a UserProvider");
@@ -44,6 +46,7 @@ export default function DrawEvent() {
                         const rewardData = data.data;
                         setRewardDetail(rewardData);
                         checkDateRange(rewardData.start_date, rewardData.end_date);
+                         checkIfAlreadyJoined(rewardData);
                     } else {
                         console.error("Error fetching reward details:", data.message);
                     }
@@ -61,11 +64,40 @@ export default function DrawEvent() {
 
         setIsWithinDateRange(currentDate >= start && currentDate <= end);
 
-        if (currentDate < start) {
-            // If the event hasn't started, calculate countdown
-            calculateCountdown(start);
-        }
+        calculateCountdown(end);
+        // if (currentDate < start) {
+        //     calculateCountdown(start);
+        //     // If the event hasn't started, calculate countdown
+        // }
     };
+    const checkIfAlreadyJoined = async (rewardData:IndividualDraw) => {
+         if(user && id){
+            const payload = {
+                user_id: user.id,
+                Draw_id: id,
+            };
+
+             try {
+                  const response = await fetch(`https://bonusforyou.org/api/user/checkUserJoinedDraw`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(payload),
+                });
+
+                 const data = await response.json();
+                 if(data.status){
+                     setHasJoined(true)
+                 }else{
+                    setHasJoined(false)
+                 }
+
+             } catch(error){
+                console.error("Error joining draw:", error);
+             }
+        }
+    }
 
     const calculateCountdown = (startDate: Date) => {
         const interval = setInterval(() => {
@@ -82,12 +114,13 @@ export default function DrawEvent() {
                 const minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
                 const seconds = Math.floor((timeDiff / 1000) % 60);
                 setCountdown(
-                    `${days}d ${hours}h ${minutes}m ${seconds}s`
+                    `${days}D ${hours}H ${minutes}M ${seconds}S`
                 );
             }
         }, 1000);
-         return () => clearInterval(interval);
+        return () => clearInterval(interval);
     };
+
 
     const handleJoinClick = () => {
         if (rewardDetail?.verifiaction_link_0) {
@@ -95,6 +128,7 @@ export default function DrawEvent() {
         }
         setIsModalOpen(true);
     };
+
 
     const handleModalSubmit = () => {
         if (rewardDetail) {
@@ -116,17 +150,34 @@ export default function DrawEvent() {
                     if (data.status) {
                         console.log("Joined successfully");
                         setIsModalOpen(false);
-                       setShowSuccessModal(true);
+                        setShowSuccessModal(true);
                         setIsWithinDateRange(false);
+                        setHasJoined(true); // Set hasJoined to true after a successful join
                         setTimeout(() => {
                             setShowSuccessModal(false);
                             setVerificationLink("");
-                        }, 2000);
+                        }, 5000);
                     } else {
                         console.error("Error joining draw:", data.message);
+                        setIsModalOpen(false);
+                        setShowErrorModal(true);
+                        setErrorMessage(data.message || "Failed to join event. Please try again.");
+                        setTimeout(() => {
+                            setShowErrorModal(false);
+                            setVerificationLink("");
+                        }, 10000);
                     }
                 })
-                .catch((error) => console.error("Error joining draw:", error));
+                .catch((error) => {
+                    console.error("Error joining draw:", error);
+                    setIsModalOpen(false);
+                    setShowErrorModal(true);
+                    setErrorMessage("Failed to join event. Please try again.");
+                    setTimeout(() => {
+                        setShowErrorModal(false);
+                        setVerificationLink("");
+                    }, 10000);
+                });
         }
     };
 
@@ -162,32 +213,39 @@ export default function DrawEvent() {
                     className="text-center text-black border border-black p-2 rounded-lg"
                     dangerouslySetInnerHTML={{ __html: rewardDetail.draw_detail }}
                 />
-                <div className="flex justify-between items-center my-3">
-                    <button
-                        onClick={handleJoinClick}
-                         className={`bg-green-600 p-2 rounded-lg text-white font-semibold ${isWithinDateRange ? "bg-green-600" : "bg-black cursor-not-allowed"}`}
-                        disabled={!isWithinDateRange || !rewardDetail.verifiaction_link_0}
-                    >
-                        VIEW POST TO JOIN PROGRAM
-                    </button>
-                    <div
-                        className="rounded-full w-12 h-12 bg-red-500 justify-center items-center flex"
-                        onClick={() => {
-                            navigator.clipboard.writeText(rewardDetail.channel_link || "");
-                        }}
-                    >
-                        <img className="w-6 h-6" src="/share.png" alt="Share" />
+               {!hasJoined && (
+                    <div className="flex justify-between items-center my-3">
+                        <button
+                            onClick={handleJoinClick}
+                            className={`bg-green-600 p-2 rounded-lg text-white font-semibold ${isWithinDateRange ? "bg-green-600" : "bg-black cursor-not-allowed"}`}
+                            disabled={!isWithinDateRange || !rewardDetail.verifiaction_link_0}
+                        >
+                            VIEW POST TO JOIN PROGRAM
+                        </button>
+                        <div
+                            className="rounded-full w-12 h-12 bg-red-500 justify-center items-center flex"
+                            onClick={() => {
+                                navigator.clipboard.writeText(rewardDetail.channel_link || "");
+                            }}
+                        >
+                            <img className="w-6 h-6" src="/share.png" alt="Share" />
+                        </div>
                     </div>
-                </div>
-                {isWithinDateRange && <h3 className="text-black">User Left to Join: {rewardDetail.join_user}</h3>}
-                {!isWithinDateRange && countdown && (
+                )}
+                {isWithinDateRange && !hasJoined && <h3 className="text-black">User Left to Join: {rewardDetail.join_user}</h3>}
+                 {!isWithinDateRange && countdown && !hasJoined && (
                     <h3 className="text-center text-black font-bold">
                         Countdown to Start: {countdown}
                     </h3>
                 )}
-                <p className="text-center text-black text-sm p-4 rounded-lg">
-                    View post, Join Channel and copy paste link, comeback and paste link to bonusforyou
-                </p>
+                <h3 className="text-center text-black font-bold text-3xl mt-3">
+                        {countdown}
+                    </h3>
+                {!hasJoined && (
+                     <p className="text-center text-black text-sm p-4 rounded-lg">
+                        View post, Join Channel and copy paste link, comeback and paste link to bonusforyou
+                    </p>
+                )}
                 <Footer />
                 {isModalOpen && (
                     <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
@@ -213,10 +271,22 @@ export default function DrawEvent() {
                         </div>
                     </div>
                 )}
-                 {showSuccessModal && (
+                {showSuccessModal && (
                     <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
                         <div className="bg-white p-6 rounded-lg flex flex-col items-center">
                             <h2 className="text-center text-black font-bold mb-4">Joined Successfully!</h2>
+                            <img
+                                src={rewardDetail.draw_image}
+                                alt={rewardDetail.draw_name}
+                                className="rounded mb-4"
+                            />
+                        </div>
+                    </div>
+                )}
+                {showErrorModal && (
+                    <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
+                        <div className="bg-yellow-300 p-6 rounded-lg flex flex-col items-center">
+                            <p className="text-center text-red-600 font-bold">{errorMessage}</p>
                             <img
                                 src={rewardDetail.draw_image}
                                 alt={rewardDetail.draw_name}

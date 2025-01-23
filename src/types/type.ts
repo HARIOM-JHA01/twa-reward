@@ -47,6 +47,7 @@ export interface Draw {
 export type PrizeItem = {
     id: number;
     draw_id: number;
+    reward_id: number;
     no_win_prize: string;
     no_of_prize: string;
     prize: string;
@@ -62,6 +63,7 @@ export type PrizeItem = {
 
 
 export type IndividualDraw = {
+    id: number;
     poster_name: string;
     draw_name: string;
     draw_image: string;
