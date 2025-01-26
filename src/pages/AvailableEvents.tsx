@@ -137,7 +137,7 @@ const RewardCard: React.FC<RewardCardProps> = ({ reward, navigate }) => {
             <img
                 src={reward.reward_image}
                 alt={reward.reward_name}
-                className="w-full h-full object-cover rounded-lg p-1"
+                className="w-full h-[13vh] object-cover rounded-lg p-1"
             />
             <div className="flex justify-between">
                 <h2 className="text-black px-1">
@@ -166,7 +166,7 @@ const DrawCard: React.FC<DrawCardProps> = ({ draw, navigate }) => {
             <img
                 src={draw.draw_image}
                 alt={draw.draw_name}
-                className="w-full h-full object-cover rounded-lg p-1"
+                className="w-full h-[13vh] object-cover rounded-lg p-1"
             />
             <div className="flex justify-between">
                 <h2 className="text-black px-1">

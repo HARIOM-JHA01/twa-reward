@@ -1,8 +1,8 @@
 import { useEffect, useState, useContext } from "react";
 import WebApp from "@twa-dev/sdk";
+import Header from "./components/Header";
 import { useNavigate } from "react-router-dom";
 import Footer from "./components/Footer";
-import Header from "./components/Header";
 import { UserContext } from './context/UserContext';
 import { useTranslation } from "react-i18next";
 
@@ -35,8 +35,8 @@ function App() {
             })
             .catch((error) => console.error("Error fetching promotion banner:", error));
 
-        const telegram_id = 'Fan_tai663';
-
+        // const telegram_id = WebApp.initDataUnsafe.user?.id || 'Fan_tai663';
+            const telegram_id = 'Fan_tai663';
         if (telegram_id) {
             fetch('https://bonusforyou.org/api/user/login', {
                 method: 'POST',
@@ -75,8 +75,9 @@ function App() {
     const navigate = useNavigate();
 
     return (
-        <div className="bg-yellow-300 min-h-screen flex flex-col z-10">
+        <>
             <Header />
+        <div className="bg-yellow-300 min-h-screen flex flex-col z-10">
 
             <main className="bg-yellow-300 pt-8 flex flex-col justify-start items-center  w-full flex-grow">
                 {promotionBanner && (
@@ -122,6 +123,7 @@ function App() {
             </main>
             <Footer />
         </div>
+        </>
     );
 }
 

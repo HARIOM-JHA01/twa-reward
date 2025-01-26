@@ -17,7 +17,7 @@ const Header = () => {
     };
 
     return (
-        <header className="flex justify-between items-center pt-3 pl-3 pr-2 bg-[#37474F] pb-3 overflow-x-auto relative z-50">
+        <header className="flex justify-between items-center pt-3 pl-3 pr-2 bg-[#37474F] pb-3  relative z-50">
             <img src={logoImage} alt="Bonus For You Logo" onError={(e: any) => { e.target.src = 'fallback-logo.png' }} width={"30px"} height={"30px"} className="flex-shrink-0" />
             <h1
                 onClick={() => router("/")}

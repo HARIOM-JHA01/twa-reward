@@ -4,8 +4,6 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import WebApp from "@twa-dev/sdk";
 import { UserContext } from "../context/UserContext";
-// import { useTranslation } from "react-i18next";
-
 import { IndividualDraw } from "../types/type";
 
 export default function DrawEvent() {
@@ -18,7 +16,7 @@ export default function DrawEvent() {
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
-    const [hasJoined, setHasJoined] = useState(false); // New state to track if the user has joined
+    const [hasJoined, setHasJoined] = useState(false);
     const userContext = useContext(UserContext);
 
     if (!userContext) {
@@ -45,8 +43,8 @@ export default function DrawEvent() {
                     if (data.status) {
                         const rewardData = data.data;
                         setRewardDetail(rewardData);
-                        checkDateRange(rewardData.start_date, rewardData.end_date);
-                         checkIfAlreadyJoined(rewardData);
+                        checkDateRange(rewardData.start_date, rewardData.end_date)
+                        checkIfAlreadyJoined(String(user.id), id);
                     } else {
                         console.error("Error fetching reward details:", data.message);
                     }
@@ -55,7 +53,7 @@ export default function DrawEvent() {
                     console.error("Error fetching reward details:", error);
                 });
         }
-    }, [id]);
+    }, [id, user]);
 
     const checkDateRange = (startDate: string, endDate: string) => {
         const currentDate = new Date();
@@ -63,51 +61,51 @@ export default function DrawEvent() {
         const end = new Date(endDate);
 
         setIsWithinDateRange(currentDate >= start && currentDate <= end);
-
+        console.log("isWithinDateRange:", isWithinDateRange);
         calculateCountdown(end);
-        // if (currentDate < start) {
-        //     calculateCountdown(start);
-        //     // If the event hasn't started, calculate countdown
-        // }
     };
-    const checkIfAlreadyJoined = async (rewardData:IndividualDraw) => {
-         if(user && id){
-            const payload = {
-                user_id: user.id,
-                Draw_id: id,
-            };
 
-             try {
-                  const response = await fetch(`https://bonusforyou.org/api/user/checkUserJoinedDraw`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(payload),
-                });
+    const checkIfAlreadyJoined = async (userId: string, drawId: string) => {
+        if (!userId || !drawId) {
+            console.warn("User ID or Draw ID is missing. Cannot check if already joined.");
+            return;
+        }
 
-                 const data = await response.json();
-                 if(data.status){
-                     setHasJoined(true)
-                 }else{
-                    setHasJoined(false)
-                 }
+        try {
+            const response = await fetch(`https://bonusforyou.org/api/user/CheckUserJoinDraw/${userId}/${drawId}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
 
-             } catch(error){
-                console.error("Error joining draw:", error);
-             }
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const data = await response.json();
+            console.log("Check if already joined:", data);
+            console.log("user id:", userId);
+            console.log("draw id:", drawId);
+            if (data == 1) {
+                setHasJoined(true)
+            } else {
+                setHasJoined(false)
+            }
+
+        } catch (error) {
+            console.error("Error joining draw:", error);
         }
     }
 
-    const calculateCountdown = (startDate: Date) => {
+    const calculateCountdown = (endDate: Date) => {
         const interval = setInterval(() => {
             const now = new Date();
-            const timeDiff = startDate.getTime() - now.getTime();
+            const timeDiff = endDate.getTime() - now.getTime();
 
             if (timeDiff <= 0) {
                 setCountdown("");
                 clearInterval(interval);
-                setIsWithinDateRange(true);
+                setIsWithinDateRange(false);
             } else {
                 const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((timeDiff / (1000 * 60 * 60)) % 24);
@@ -121,14 +119,12 @@ export default function DrawEvent() {
         return () => clearInterval(interval);
     };
 
-
     const handleJoinClick = () => {
         if (rewardDetail?.verifiaction_link_0) {
             window.open(rewardDetail.verifiaction_link_0, "_blank");
         }
         setIsModalOpen(true);
     };
-
 
     const handleModalSubmit = () => {
         if (rewardDetail) {
@@ -152,7 +148,7 @@ export default function DrawEvent() {
                         setIsModalOpen(false);
                         setShowSuccessModal(true);
                         setIsWithinDateRange(false);
-                        setHasJoined(true); // Set hasJoined to true after a successful join
+                        setHasJoined(true);
                         setTimeout(() => {
                             setShowSuccessModal(false);
                             setVerificationLink("");
@@ -206,19 +202,28 @@ export default function DrawEvent() {
                     ))}
                 </ul>
                 <h2 className="text-center text-black font-bold">Early Birds Prize:</h2>
-                <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 text-center text-black p-2 rounded-lg border border-black min-h-10">
+                <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 text-center text-black p-2 rounded-lg border border-black">
+                    {rewardDetail.Prize_list.map((prize, index) => (
+                        (Number(prize.e_no_of_prize) !== 0) && (
+                            <li key={index} className="flex justify-between items-center">
+                                <div className="flex-1">{prize.e_no_win_prize}</div>
+                                <div className="flex-1">{prize.e_no_of_prize}</div>
+                                <div className="flex-1">{prize.e_prize}</div>
+                            </li>
+                        )
+                    ))}
                 </ul>
+
                 <h2 className="text-center text-black font-bold">Event Brief:</h2>
                 <p
                     className="text-center text-black border border-black p-2 rounded-lg"
                     dangerouslySetInnerHTML={{ __html: rewardDetail.draw_detail }}
                 />
-               {!hasJoined && (
+                {!hasJoined && isWithinDateRange && (
                     <div className="flex justify-between items-center my-3">
                         <button
                             onClick={handleJoinClick}
-                            className={`bg-green-600 p-2 rounded-lg text-white font-semibold ${isWithinDateRange ? "bg-green-600" : "bg-black cursor-not-allowed"}`}
-                            disabled={!isWithinDateRange || !rewardDetail.verifiaction_link_0}
+                            className="bg-green-600 p-2 rounded-lg text-white font-semibold"
                         >
                             VIEW POST TO JOIN PROGRAM
                         </button>
@@ -233,16 +238,14 @@ export default function DrawEvent() {
                     </div>
                 )}
                 {isWithinDateRange && !hasJoined && <h3 className="text-black">User Left to Join: {rewardDetail.join_user}</h3>}
-                 {!isWithinDateRange && countdown && !hasJoined && (
-                    <h3 className="text-center text-black font-bold">
-                        Countdown to Start: {countdown}
-                    </h3>
-                )}
-                <h3 className="text-center text-black font-bold text-3xl mt-3">
+                {!isWithinDateRange && countdown && !hasJoined && (
+                    <h3 className="text-center text-black font-bold text-3xl mt-3">
                         {countdown}
                     </h3>
+                )}
+
                 {!hasJoined && (
-                     <p className="text-center text-black text-sm p-4 rounded-lg">
+                    <p className="text-center text-black text-sm p-4 rounded-lg">
                         View post, Join Channel and copy paste link, comeback and paste link to bonusforyou
                     </p>
                 )}

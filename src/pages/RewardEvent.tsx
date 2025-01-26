@@ -14,9 +14,9 @@ export default function RewardEvent() {
     const [isWithinDateRange, setIsWithinDateRange] = useState(false);
     const [countdown, setCountdown] = useState<string>("");
     const [showSuccessModal, setShowSuccessModal] = useState(false);
-       const [showErrorModal, setShowErrorModal] = useState(false);
-        const [errorMessage, setErrorMessage] = useState("");
-        const [hasJoined, setHasJoined] = useState(false);
+    const [showErrorModal, setShowErrorModal] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [hasJoined, setHasJoined] = useState(false);
     const userContext = useContext(UserContext);
 
     if (!userContext) {
@@ -25,7 +25,7 @@ export default function RewardEvent() {
 
     const { user } = userContext;
 
-   useEffect(() => {
+    useEffect(() => {
         WebApp.BackButton.show();
         WebApp.BackButton.onClick(() => {
             window.history.back();
@@ -44,7 +44,8 @@ export default function RewardEvent() {
                         const rewardData = data.data;
                         setRewardDetail(rewardData);
                         checkDateRange(rewardData.start_date, rewardData.end_date);
-                         checkIfAlreadyJoined(rewardData);
+                        checkIfAlreadyJoined(String(user.id), rewardData.Prize_list[0].reward_id);
+                        console.log("if already joined", hasJoined);
                     } else {
                         console.error("Error fetching reward details:", data.message);
                     }
@@ -55,44 +56,51 @@ export default function RewardEvent() {
         }
     }, [id]);
 
-   const checkDateRange = (startDate: string, endDate: string) => {
+    const checkDateRange = (startDate: string, endDate: string) => {
         const currentDate = new Date();
         const start = new Date(startDate);
         const end = new Date(endDate);
+        console.log("currentDate", currentDate);
+        console.log("start", start);
+        console.log("end", end);
 
         setIsWithinDateRange(currentDate >= start && currentDate <= end);
-
-         if (currentDate < start) {
+        console.log("isWithinDateRange", isWithinDateRange);
+        if (currentDate < start) {
             // If the event hasn't started, calculate countdown
             calculateCountdown(start);
         }
     };
-     const checkIfAlreadyJoined = async (rewardData:IndividualDraw) => {
-         if(user && id){
-            const payload = {
-                user_id: user.id,
-                Reward_id: id,
-            };
 
-             try {
-                  const response = await fetch(`https://bonusforyou.org/api/user/checkUserJoinedReward`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(payload),
-                });
+    const checkIfAlreadyJoined = async (userId: string, rewardId: string) => {
+        if (!userId || !rewardId) {
+            console.warn("User ID or Draw ID is missing. Cannot check if already joined.");
+            return;
+        }
 
-                 const data = await response.json();
-                 if(data.status){
-                     setHasJoined(true)
-                 }else{
-                    setHasJoined(false)
-                 }
+        try {
+            const response = await fetch(`https://bonusforyou.org/api/user/CheckUserJoinReward//${userId}/${rewardId}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
 
-             } catch(error){
-                console.error("Error joining reward:", error);
-             }
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const data = await response.json();
+            console.log("Check if already joined:", data);
+            console.log("user id:", userId);
+            console.log("reward Id:", rewardId);
+            if (data == 1) {
+                setHasJoined(true)
+            } else {
+                setHasJoined(false)
+            }
+
+        } catch (error) {
+            console.error("Error joining draw:", error);
         }
     }
 
@@ -115,7 +123,7 @@ export default function RewardEvent() {
                 );
             }
         }, 1000);
-         return () => clearInterval(interval);
+        return () => clearInterval(interval);
     };
 
     const handleJoinClick = () => {
@@ -125,7 +133,7 @@ export default function RewardEvent() {
         setIsModalOpen(true);
     };
 
-  const handleModalSubmit = () => {
+    const handleModalSubmit = () => {
         if (rewardDetail) {
             const payload = {
                 user_id: user.id,
@@ -144,21 +152,21 @@ export default function RewardEvent() {
                 .then(response => response.json())
                 .then((data) => {
                     if (data.status) {
-                          console.log("Joined successfully");
+                        console.log("Joined successfully");
                         setIsModalOpen(false);
-                       setShowSuccessModal(true);
-                       setIsWithinDateRange(false);
-                       setHasJoined(true);
+                        setShowSuccessModal(true);
+                        setIsWithinDateRange(false);
+                        setHasJoined(true);
                         setTimeout(() => {
                             setShowSuccessModal(false);
                             setVerificationLink("");
                         }, 5000);
                     } else {
                         console.error("Error joining reward:", data.message);
-                          setIsModalOpen(false);
-                           setShowErrorModal(true);
-                            setErrorMessage(data.message || "Failed to join event. Please try again.");
-                         setTimeout(() => {
+                        setIsModalOpen(false);
+                        setShowErrorModal(true);
+                        setErrorMessage(data.message || "Failed to join event. Please try again.");
+                        setTimeout(() => {
                             setShowErrorModal(false);
                             setVerificationLink("");
                         }, 10000);
@@ -166,13 +174,13 @@ export default function RewardEvent() {
                 })
                 .catch(error => {
                     console.error("Error joining reward:", error);
-                     setIsModalOpen(false);
-                     setShowErrorModal(true);
-                            setErrorMessage("Failed to join event. Please try again.");
-                         setTimeout(() => {
-                            setShowErrorModal(false);
-                            setVerificationLink("");
-                        }, 10000);
+                    setIsModalOpen(false);
+                    setShowErrorModal(true);
+                    setErrorMessage("Failed to join event. Please try again.");
+                    setTimeout(() => {
+                        setShowErrorModal(false);
+                        setVerificationLink("");
+                    }, 10000);
                 });
         }
     };
@@ -185,7 +193,7 @@ export default function RewardEvent() {
         <div className="bg-yellow-300">
             <Header />
             <main className="bg-yellow-300 flex flex-col w-full min-h-screen p-4">
-               <img src={rewardDetail.draw_image} alt={rewardDetail.draw_name} className="rounded my-3" />
+                <img src={rewardDetail.draw_image} alt={rewardDetail.draw_name} className="rounded my-3" />
                 <h2 className="text-center text-black font-bold">Event Title:</h2>
                 <p className="text-center text-black border border-black p-2 rounded-lg">{rewardDetail.draw_name}</p>
                 <h2 className="text-center text-black font-bold">Events Detail and Join Channel as Subscriber:</h2>
@@ -201,44 +209,53 @@ export default function RewardEvent() {
                         </li>
                     ))}
                 </ul>
-                                 <h2 className="text-center text-black font-bold">Early Birds Prize:</h2>
-                <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 text-center text-black p-2 rounded-lg border border-black min-h-10">
+                <h2 className="text-center text-black font-bold">Early Birds Prize:</h2>
+                <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 text-center text-black p-2 rounded-lg border border-black">
+                    {rewardDetail.Prize_list.map((prize, index) => (
+                        (Number(prize.e_no_of_prize) !== 0) && (
+                            <li key={index} className="flex justify-between items-center">
+                                <div className="flex-1">{prize.e_no_win_prize}</div>
+                                <div className="flex-1">{prize.e_no_of_prize}</div>
+                                <div className="flex-1">{prize.e_prize}</div>
+                            </li>
+                        )
+                    ))}
                 </ul>
+
                 <h2 className="text-center text-black font-bold">Event Brief:</h2>
-                  <p
+                <p
                     className="text-center text-black border border-black p-2 rounded-lg min-h-10"
                     dangerouslySetInnerHTML={{ __html: rewardDetail.draw_detail }}
                 />
-                {!hasJoined && (
-                <div className="flex justify-between items-center my-3">
-                    <button
-                        onClick={handleJoinClick}
-                       className={`bg-green-600 p-2 rounded-lg text-white font-semibold ${isWithinDateRange ? "bg-green-600" : "bg-black cursor-not-allowed"}`}
-                        disabled={!isWithinDateRange || !rewardDetail.verifiaction_link_0}
-                    >
-                        VIEW POST TO JOIN PROGRAM
-                    </button>
-                     <div
-                        className="rounded-full w-12 h-12 bg-red-500 justify-center items-center flex"
-                        onClick={() => {
-                            navigator.clipboard.writeText(rewardDetail.channel_link || "");
-                        }}
-                    >
-                        <img className="w-6 h-6" src="/share.png" alt="Share" />
+                {!hasJoined && isWithinDateRange && (
+                    <div className="flex justify-between items-center my-3">
+                        <button
+                            onClick={handleJoinClick}
+                            className="bg-green-600 p-2 rounded-lg text-white font-semibold"
+                        >
+                            VIEW POST TO JOIN PROGRAM
+                        </button>
+                        <div
+                            className="rounded-full w-12 h-12 bg-red-500 justify-center items-center flex"
+                            onClick={() => {
+                                navigator.clipboard.writeText(rewardDetail.channel_link || "");
+                            }}
+                        >
+                            <img className="w-6 h-6" src="/share.png" alt="Share" />
+                        </div>
                     </div>
-                </div>
                 )}
-                {isWithinDateRange && !hasJoined &&<h3 className="text-black">User Left to Join: {rewardDetail.join_user}</h3>}
-                 {!isWithinDateRange && countdown && !hasJoined && (
+                {isWithinDateRange && !hasJoined && <h3 className="text-black">User Left to Join: {rewardDetail.join_user}</h3>}
+                {!isWithinDateRange && countdown && !hasJoined && (
                     <h3 className="text-center text-black font-bold">
                         Countdown to Start: {countdown}
                     </h3>
                 )}
-                  {!hasJoined && (
-                       <p className="text-center text-black text-sm p-4 rounded-lg">
-                            View post, Join Channel and copy paste link, comeback and paste link to bonusforyou
-                        </p>
-                    )}
+                {!hasJoined && (
+                    <p className="text-center text-black text-sm p-4 rounded-lg">
+                        View post, Join Channel and copy paste link, comeback and paste link to bonusforyou
+                    </p>
+                )}
                 <Footer />
                 {isModalOpen && (
                     <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
@@ -276,9 +293,9 @@ export default function RewardEvent() {
                         </div>
                     </div>
                 )}
-                  {showErrorModal && (
+                {showErrorModal && (
                     <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
-                       <div className="bg-yellow-300 p-6 rounded-lg flex flex-col items-center">
+                        <div className="bg-yellow-300 p-6 rounded-lg flex flex-col items-center">
                             <p className="text-center text-red-600 font-bold">{errorMessage}</p>
                             <img
                                 src={rewardDetail.draw_image}

@@ -47,7 +47,7 @@ export default function ParticipatedDrawEvent() {
                 <p className="text-center text-black border border-black p-2 rounded-lg">{rewardDetail.draw_name}</p>
                 <h2 className="text-center text-black font-bold">Events Detail and Join Channel as Subscriber:</h2>
                 <a
-                    href={rewardDetail.channel_link}
+                    href={rewardDetail.channel_link || "#"}
                     className="text-center text-red-500 border border-black p-2 rounded-lg">{rewardDetail.prize_detail_link}</a>
                 <h2 className="text-center text-black font-bold">Prizes:</h2>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 text-center text-black p-2 rounded-lg border border-black">
