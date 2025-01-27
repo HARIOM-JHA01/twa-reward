@@ -62,13 +62,15 @@ export default function ParticipatedDrawEvent() {
 
                 <h2 className="text-center text-black font-bold">Early Birds Prize:</h2>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 text-center min-h-10 text-black p-2 rounded-lg border border-black">
-                    {/* {rewardDetail.Prize_list.map((prize, index) => (
-                        <li key={index} className="flex justify-between items-center">
-                            <div className="flex-1">{prize.no_win_prize}</div>
-                            <div className="flex-1">{prize.no_of_prize}</div>
-                            <div className="flex-1">{prize.prize}</div>
-                        </li>
-                    ))} */}
+                {rewardDetail.Prize_list.map((prize, index) => (
+                        (Number(prize.e_no_of_prize) !== 0) && (
+                            <li key={index} className="flex justify-between items-center">
+                                <div className="flex-1">{prize.e_no_win_prize}</div>
+                                <div className="flex-1">{prize.e_no_of_prize}</div>
+                                <div className="flex-1">{prize.e_prize}</div>
+                            </li>
+                        )
+                    ))}
                 </ul>
 
                 <h2 className="text-center text-black font-bold">Event Brief:</h2>

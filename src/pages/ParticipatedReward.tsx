@@ -3,30 +3,13 @@ import Footer from "../components/Footer";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import WebApp from "@twa-dev/sdk";
+import { IndividualDraw } from "../types/type";
 
-interface Prize {
-    id: number;
-    no_win_prize: string;
-    no_of_prize: string;
-    prize: string;
-}
 
-interface RewardDetail {
-    draw_name: string;
-    draw_image: string;
-    country: string;
-    start_date: string;
-    end_date: string;
-    draw_detail: string;
-    channel_link: string;
-    join_user: number;
-    verifiaction_link_0: string;
-    Prize_list: Prize[];
-}
 
 export default function ParticipatedRewardEvent() {
     const { id } = useParams<{ id: string }>();
-    const [rewardDetail, setRewardDetail] = useState<RewardDetail | null>(null);
+    const [rewardDetail, setRewardDetail] = useState<IndividualDraw | null>(null);
 
     useEffect(() => {
         WebApp.BackButton.show();
@@ -42,6 +25,7 @@ export default function ParticipatedRewardEvent() {
                 .then(data => {
                     if (data.status) {
                         setRewardDetail(data.data);
+                        console.log(data.data);
                     } else {
                         console.error("Error fetching reward details:", data.message);
                     }
@@ -64,8 +48,8 @@ export default function ParticipatedRewardEvent() {
                 <p className="text-center text-black border border-black p-2 rounded-lg">{rewardDetail.draw_name}</p>
                 <h2 className="text-center text-black font-bold">Events Detail and Join Channel as Subscriber:</h2>
                 <a
-                    href="{rewardDetail.channel_link}"
-                    className="text-center text-orange-400 border border-black p-2 rounded-lg">{rewardDetail.channel_link}</a>
+                    href={rewardDetail.prize_detail_link || "#"}
+                    className="text-center text-red-400 border border-black p-2 rounded-lg">{rewardDetail.prize_detail_link}</a>
                 <h2 className="text-center text-black font-bold">Prizes:</h2>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 text-center text-black p-2 rounded-lg border border-black">
                     {rewardDetail.Prize_list.map((prize, index) => (
@@ -79,12 +63,14 @@ export default function ParticipatedRewardEvent() {
 
                 <h2 className="text-center text-black font-bold">Early Birds Prize:</h2>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 text-center text-black p-2 rounded-lg border border-black">
-                    {rewardDetail.Prize_list.map((prize, index) => (
-                        <li key={index} className="flex justify-between items-center">
-                            <div className="flex-1">{prize.no_win_prize}</div>
-                            <div className="flex-1">{prize.no_of_prize}</div>
-                            <div className="flex-1">{prize.prize}</div>
-                        </li>
+                {rewardDetail.Prize_list.map((prize, index) => (
+                        (Number(prize.e_no_of_prize) !== 0) && (
+                            <li key={index} className="flex justify-between items-center">
+                                <div className="flex-1">{prize.e_no_win_prize}</div>
+                                <div className="flex-1">{prize.e_no_of_prize}</div>
+                                <div className="flex-1">{prize.e_prize}</div>
+                            </li>
+                        )
                     ))}
                 </ul>
 
