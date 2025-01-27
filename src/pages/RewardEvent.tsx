@@ -41,6 +41,7 @@ export default function RewardEvent() {
                 })
                 .then(data => {
                     if (data.status) {
+                        console.log(`https://bonusforyou.org/api/user/rewardlistsingle/${id}`);
                         const rewardData = data.data;
                         setRewardDetail(rewardData);
                         checkDateRange(rewardData.start_date, rewardData.end_date);
@@ -137,7 +138,7 @@ export default function RewardEvent() {
         if (rewardDetail) {
             const payload = {
                 user_id: user.id,
-                Reward_id: rewardDetail.Prize_list[0].reward_id,
+                Draw_id: rewardDetail.Prize_list[0].reward_id,
                 Verification_link: verificationLink,
             };
             console.log(payload);
