@@ -7,6 +7,7 @@ import { UserContext } from '../context/UserContext.js';
 export default function Profile() {
 
     const [error, setError] = useState("");
+    const profileImage = "/profile.jpg";
 
     const userContext = useContext(UserContext);
     if (!userContext) {
@@ -34,25 +35,23 @@ export default function Profile() {
     return (
         <div className="bg-yellow-300">
             <Header />
-            <main className="bg-yellow-300 pt-8 flex flex-col items-center h-[80vh] w-full">
+            <main className="bg-yellow-300  flex flex-col items-center justify-center h-[80vh] w-full">
                 {error ? (
                     <h1 className="text-red-600 font-bold">{error}</h1>
                 ) : (
                     <>
                         {isLoggedIn ?
-                            <div className="flex flex-col gap-4 w-[90%] max-w-md bg-yellow-300 p-4 rounded-lg shadow-md">
+                            <div className="flex flex-col justify-center gap-4 w-[90%] max-w-md bg-yellow-300  rounded-lg shadow-md">
                                 <div className="flex flex-col">
-                                    <label className="font-semibold text-xl text-black">First Name</label>
+
+                                    <img src={profileImage} alt="Bonus For You Logo" onError={(e: any) => { e.target.src = 'fallback-logo.png' }}  className="rounded-lg shadow-lg w-[90vw] max-h-[120px] mx-auto mb-5" />
+
+                                    <label className="font-semibold text-xl text-black">Name</label>
                                     <div className="border-black border-2 rounded px-4 py-2 text-black">
                                         {user.name.split('_')[0] || ''}
                                     </div>
                                 </div>
-                                <div className="flex flex-col">
-                                    <label className="font-semibold text-xl text-black">Last Name</label>
-                                    <div className="border-black border-2 rounded px-4 py-2 text-black">
-                                        {user.name.split('_')[1] || ''}
-                                    </div>
-                                </div>
+                                
                                 <div className="flex flex-col">
                                     <label className="font-semibold text-xl text-black">Telegram ID</label>
                                     <div className="border-black border-2 rounded px-4 py-2 text-black">

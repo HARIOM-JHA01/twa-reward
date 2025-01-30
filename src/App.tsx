@@ -36,7 +36,7 @@ function App() {
             .catch((error) => console.error("Error fetching promotion banner:", error));
 
         // const telegram_id = WebApp.initDataUnsafe.user?.id || 'Fan_tai663';
-            const telegram_id = 'Fan_tai663';
+            const telegram_id = 'kiukiuho';
         if (telegram_id) {
             fetch('https://bonusforyou.org/api/user/login', {
                 method: 'POST',
@@ -84,7 +84,7 @@ function App() {
                     <img
                         src={promotionBanner.draw_image}
                         alt={promotionBanner.draw_name}
-                        className="rounded-lg shadow-lg w-[80vw] h-[14vh]  mx-auto"
+                        className="rounded-lg shadow-lg w-[90vw] max-h-[120px] mx-auto"
                     />
                 )}
 

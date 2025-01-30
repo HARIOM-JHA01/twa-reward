@@ -185,7 +185,7 @@ export default function DrawEvent() {
         <div className="bg-yellow-300">
             <Header />
             <main className="bg-yellow-300 flex flex-col w-full min-h-screen p-4">
-                <img src={rewardDetail.draw_image} alt={rewardDetail.draw_name} className="rounded my-3" />
+                <img src={rewardDetail.draw_image} alt={rewardDetail.draw_name} className="rounded-lg shadow-lg w-[90vw] max-h-[120px] mx-auto my-3" />
                 <h2 className="text-center text-black font-bold">Event Title:</h2>
                 <p className="text-center text-black border border-black p-2 rounded-lg">{rewardDetail.draw_name}</p>
                 <h2 className="text-center text-black font-bold">Events Detail and Join Channel as Subscriber:</h2>
@@ -220,21 +220,21 @@ export default function DrawEvent() {
                     dangerouslySetInnerHTML={{ __html: rewardDetail.draw_detail }}
                 />
                 {!hasJoined && isWithinDateRange && (
-                    <div className="flex justify-between items-center my-3">
+                    <div className="flex justify-center items-center my-3">
                         <button
                             onClick={handleJoinClick}
                             className="bg-green-600 p-2 rounded-lg text-white font-semibold"
                         >
                             VIEW POST TO JOIN PROGRAM
                         </button>
-                        <div
+                        {/* <div
                             className="rounded-full w-12 h-12 bg-red-500 justify-center items-center flex"
                             onClick={() => {
                                 navigator.clipboard.writeText(rewardDetail.channel_link || "");
                             }}
                         >
                             <img className="w-6 h-6" src="/share.png" alt="Share" />
-                        </div>
+                        </div> */}
                     </div>
                 )}
                 {isWithinDateRange && !hasJoined && <h3 className="text-black">User Left to Join: {rewardDetail.join_user}</h3>}
