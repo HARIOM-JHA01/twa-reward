@@ -17,7 +17,9 @@ import {
     ParticipatedEvents,
     PrizeIWon,
     ParticipatedDrawEvent,
-    ParticipatedRewardEvent
+    ParticipatedRewardEvent,
+    PrizeIWonDraw,
+    PrizeIWonReward
 } from "./pages/index"; // Ensure the path is correct
 import './i18n'; // Import the i18n configuration
 
@@ -42,6 +44,8 @@ const Root = () => {
                 <Route path="/reward-event/:id" element={<RewardEvent />} />
                 <Route path="/participated-draw-event/:id" element={<ParticipatedDrawEvent />} />
                 <Route path="/participated-reward-event/:id" element={<ParticipatedRewardEvent />} />
+                <Route path="/prize-i-won-draw/:id" element={<PrizeIWonDraw />} />
+                <Route path="/prize-i-won-reward/:id" element={<PrizeIWonReward />} />
             </Routes>
         </BrowserRouter>
     );

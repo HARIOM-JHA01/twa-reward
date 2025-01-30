@@ -94,11 +94,11 @@ export const RewardCard: React.FC<RewardCardProps> = ({ reward }) => {
     const navigate = useNavigate();
     return (
         <div className="flex gap-1 flex-col border-2 border-black rounded-lg mb-2" onClick={() => navigate(`/reward-event/${reward.id}`)}>
-            <h2 className="text-black px-1">{reward.reward_name}</h2>
+            <h2 className="text-black px-1 font-bold">{reward.reward_name}</h2>
             <img src={reward.reward_image} alt={reward.reward_name} className="w-full h-full object-cover rounded-lg p-1" />
             <div className="flex justify-between">
-                <h2 className="text-black px-1">Start Date: {reward.start_date}</h2>
-                <h2 className="text-black px-1">End Date: {reward.end_date}</h2>
+                <h2 className="text-black px-1">Start On: {reward.start_date}</h2>
+                <h2 className="text-black px-1">End On: {reward.end_date}</h2>
 
             </div>
         </div>
@@ -113,11 +113,11 @@ export const DrawCard: React.FC<DrawCardProps> = ({ draw }) => {
     const navigate = useNavigate();
     return (
         <div className="flex gap-1 flex-col border-2 border-black rounded-lg mb-2" onClick={() => navigate(`/draw-event/${draw.id}`)}>
-            <h2 className="text-black px-1">{draw.draw_name}</h2>
+            <h2 className="text-black px-1 font-bold">{draw.draw_name}</h2>
             <img src={draw.draw_image} alt={draw.draw_name} className="w-full h-full object-cover rounded-lg p-1" />
             <div className="flex justify-between">
-                <h2 className="text-black px-1">Start Date: {new Date(draw.start_date).toLocaleDateString()}</h2>
-                <h2 className="text-black px-1">End Date: {new Date(draw.end_date).toLocaleDateString()}</h2>
+                <h2 className="text-black px-1">Start On: {new Date(draw.start_date).toLocaleDateString()}</h2>
+                <h2 className="text-black px-1">End On: {new Date(draw.end_date).toLocaleDateString()}</h2>
             </div>
         </div>
     );

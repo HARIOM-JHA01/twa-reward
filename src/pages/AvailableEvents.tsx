@@ -133,7 +133,7 @@ const RewardCard: React.FC<RewardCardProps> = ({ reward, navigate }) => {
             className="flex gap-1 flex-col border-2 border-black rounded-lg mb-2 cursor-pointer"
             onClick={() => navigate(`/reward-event/${reward.id}`)}
         >
-            <h2 className="text-black px-1">{reward.reward_name}</h2>
+            <h2 className="text-black px-1 font-bold">{reward.reward_name}</h2>
             <img
                 src={reward.reward_image}
                 alt={reward.reward_name}
@@ -141,10 +141,10 @@ const RewardCard: React.FC<RewardCardProps> = ({ reward, navigate }) => {
             />
             <div className="flex justify-between">
                 <h2 className="text-black px-1">
-                    Start Date: {reward.start_date || "Not Available"}
+                    Start On: {reward.start_date || "Not Available"}
                 </h2>
                 <h2 className="text-black px-1">
-                    End Date: {reward.end_date || "Not Available"}
+                    End On: {reward.end_date || "Not Available"}
                 </h2>
             </div>
         </div>
@@ -162,7 +162,7 @@ const DrawCard: React.FC<DrawCardProps> = ({ draw, navigate }) => {
             className="flex gap-1 flex-col border-2 border-black rounded-lg mb-2 cursor-pointer"
             onClick={() => navigate(`/draw-event/${draw.id}`)}
         >
-            <h2 className="text-black px-1">{draw.draw_name}</h2>
+            <h2 className="text-black px-1 font-bold">{draw.draw_name}</h2>
             <img
                 src={draw.draw_image}
                 alt={draw.draw_name}
@@ -170,10 +170,10 @@ const DrawCard: React.FC<DrawCardProps> = ({ draw, navigate }) => {
             />
             <div className="flex justify-between">
                 <h2 className="text-black px-1">
-                    Start Date: {draw.start_date || "Not Available"}
+                    Start On: {draw.start_date || "Not Available"}
                 </h2>
                 <h2 className="text-black px-1">
-                    End Date: {draw.end_date || "Not Available"}
+                    End On: {draw.end_date || "Not Available"}
                 </h2>
             </div>
         </div>
