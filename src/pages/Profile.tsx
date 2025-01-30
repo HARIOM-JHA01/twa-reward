@@ -44,7 +44,7 @@ export default function Profile() {
                             <div className="flex flex-col justify-center gap-4 w-[90%] max-w-md bg-yellow-300  rounded-lg shadow-md">
                                 <div className="flex flex-col">
 
-                                    <img src={profileImage} alt="Bonus For You Logo" onError={(e: any) => { e.target.src = 'fallback-logo.png' }}  className="rounded-lg shadow-lg w-[90vw] max-h-[120px] mx-auto mb-5" />
+                                    <img src={profileImage} alt="Bonus For You Logo" onError={(e: any) => { e.target.src = 'fallback-logo.png' }}  className="rounded-lg shadow-lg w-[90vw] h-[120px] mx-auto mb-5" />
 
                                     <label className="font-semibold text-xl text-black">Name</label>
                                     <div className="border-black border-2 rounded px-4 py-2 text-black">
