@@ -5,8 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Footer from "./components/Footer";
 import { UserContext } from './context/UserContext';
 import { useTranslation } from "react-i18next";
-import headerImage from "/header.png";
-
+import headerImage from "/profile.jpg";
 type PromotionBanner = {
     draw_image: string;
     draw_name: string;

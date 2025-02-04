@@ -182,18 +182,27 @@ interface DrawCardProps {
 
 export const DrawCard: React.FC<DrawCardProps> = ({ draw, onCardClick }) => {
     const navigate = useNavigate();
+    
+    const handleGiftBoxClick = (e: React.MouseEvent<HTMLImageElement>) => {
+        e.stopPropagation(); // This prevents the parent onClick (navigate) from firing
+        onCardClick('draw', draw); // Call your handler with the correct data
+    };
+
     return (
         <div className="flex gap-1 flex-col border-2 border-black rounded-lg mb-2 cursor-pointer" onClick={() => navigate(`/draw-event/${draw.id}`)}>
             <h2 className="text-black px-1">{draw.draw_name}</h2>
             <img src={draw.draw_image} alt={draw.draw_name} className="w-full h-full object-cover rounded-lg p-1" />
             <div className="flex justify-between">
                 <h2 className="text-black px-1">Start On: {new Date(draw.start_date).toLocaleDateString()}</h2>
-                <img src={giftBoxPath} alt="gift box" className="w-5 h-5" onClick={() => onCardClick('draw', draw)} />
+                <div className="cursor-pointer" onClick={handleGiftBoxClick}>
+                    <img src={giftBoxPath} alt="gift box" className="w-7 h-7" />
+                </div>
                 <h2 className="text-black px-1">End On: {new Date(draw.end_date).toLocaleDateString()}</h2>
             </div>
         </div>
     );
 };
+
 
 // Detail Components
 interface DrawDetailProps {
