@@ -45,7 +45,7 @@ export default function OngoingEvents() {
             <main className="bg-yellow-300 pt-8 px-2 flex flex-col min-h-[70vh] w-full">
                 <section>
                     <div className="flex justify-center gap-4">
-                    <div
+                        <div
                             className={`py-2 px-4 rounded-md cursor-pointer ${activeTab === "available" ? " bg-yellow-600 text-white" : "text-black"}`}
                             onClick={() => setActiveTab("available")}
                         >
@@ -95,7 +95,7 @@ export const RewardCard: React.FC<RewardCardProps> = ({ reward }) => {
     return (
         <div className="flex gap-1 flex-col border-2 border-black rounded-lg mb-2" onClick={() => navigate(`/reward-event/${reward.id}`)}>
             <h2 className="text-black ps-3 font-bold">{reward.reward_name}</h2>
-            <img src={reward.reward_image} alt={reward.reward_name} className="w-full h-full object-cover rounded-lg p-1" />
+            <img src={reward.reward_image} alt={reward.reward_name} className="rounded-lg shadow-lg w-[90vw] h-[120px] mx-auto" />
             <div className="flex justify-between">
                 <h2 className="text-black ps-3">Start On: {reward.start_date}</h2>
                 <h2 className="text-black pe-3">End On: {reward.end_date}</h2>
@@ -114,7 +114,7 @@ export const DrawCard: React.FC<DrawCardProps> = ({ draw }) => {
     return (
         <div className="flex gap-1 flex-col border-2 border-black rounded-lg mb-2" onClick={() => navigate(`/draw-event/${draw.id}`)}>
             <h2 className="text-black ps-3 font-bold">{draw.draw_name}</h2>
-            <img src={draw.draw_image} alt={draw.draw_name} className="w-full h-full object-cover rounded-lg p-1" />
+            <img src={draw.draw_image} alt={draw.draw_name} className="rounded-lg shadow-lg w-[90vw] h-[120px] mx-auto" />
             <div className="flex justify-between">
                 <h2 className="text-black ps-3">Start On: {new Date(draw.start_date).toLocaleDateString()}</h2>
                 <h2 className="text-black pe-3">End On: {new Date(draw.end_date).toLocaleDateString()}</h2>

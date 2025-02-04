@@ -47,7 +47,7 @@ function App() {
             .catch((error) => console.error("Error fetching country:", error));
 
         // const telegram_id = WebApp.initDataUnsafe.user?.id;
-        const telegram_id = 'Fan_tai663';
+        const telegram_id = 'kiukiuho';
 
         if (telegram_id && countryCode) { // Ensure countryCode is fetched before making the login request
             console.log('Telegram ID:', telegram_id);
@@ -93,7 +93,7 @@ function App() {
         <>
             <Header />
             <div className="bg-yellow-300 min-h-screen flex flex-col z-10">
-                <main className="bg-yellow-300 pt-8 flex flex-col justify-start items-center w-full flex-grow">
+                <main className="bg-yellow-300 pt-4 flex flex-col justify-start items-center w-full flex-grow">
                     {promotionBanner && (
                         <img
                             src={headerImage}
