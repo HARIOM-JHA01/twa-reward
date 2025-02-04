@@ -37,6 +37,9 @@ interface Reward {
 
 }
 
+import giftBoxPath from "/giftbox.png";
+import { useNavigate } from "react-router-dom";
+
 
 export default function PrizeIWon() {
     const [activeTab, setActiveTab] = useState("available");
@@ -46,7 +49,6 @@ export default function PrizeIWon() {
     const [selectedReward, setSelectedReward] = useState<Reward | null>(null);
     const userContext = useContext(UserContext);
     const user = userContext?.user || { id: 72 }; // Default user ID
-
     useEffect(() => {
         if (activeTab === "available") {
             fetch(`https://bonusforyou.org/api/user/Win_draws?user_id=${user.id}`)
@@ -97,7 +99,7 @@ export default function PrizeIWon() {
     return (
         <div className="bg-yellow-300">
             <Header />
-            <main className="bg-yellow-300 pt-8 px-4 flex flex-col min-h-[70vh] w-full relative">
+            <main className="bg-yellow-300 pt-8 px-2 flex flex-col min-h-[70vh] w-full relative">
                 <section>
                     <div className="flex justify-center gap-4">
                         <div
@@ -179,13 +181,14 @@ interface DrawCardProps {
 }
 
 export const DrawCard: React.FC<DrawCardProps> = ({ draw, onCardClick }) => {
-
+    const navigate = useNavigate();
     return (
-        <div className="flex gap-1 flex-col border-2 border-black rounded-lg mb-2 cursor-pointer" onClick={() => onCardClick('draw', draw)}>
+        <div className="flex gap-1 flex-col border-2 border-black rounded-lg mb-2 cursor-pointer" onClick={() => navigate(`/draw-event/${draw.id}`)}>
             <h2 className="text-black px-1">{draw.draw_name}</h2>
             <img src={draw.draw_image} alt={draw.draw_name} className="w-full h-full object-cover rounded-lg p-1" />
             <div className="flex justify-between">
                 <h2 className="text-black px-1">Start On: {new Date(draw.start_date).toLocaleDateString()}</h2>
+                <img src={giftBoxPath} alt="gift box" className="w-5 h-5" onClick={() => onCardClick('draw', draw)} />
                 <h2 className="text-black px-1">End On: {new Date(draw.end_date).toLocaleDateString()}</h2>
             </div>
         </div>

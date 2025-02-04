@@ -10,6 +10,8 @@ import {
     Reward
 } from "../types/type"
 
+
+
 export default function AvailableEvents() {
     const [activeTab, setActiveTab] = useState("available");
     const [rewards, setRewards] = useState<Reward[]>([]);
@@ -42,7 +44,7 @@ export default function AvailableEvents() {
     return (
         <div className="bg-yellow-300">
             <Header />
-            <main className="bg-yellow-300 pt-8 px-4 flex flex-col min-h-[70vh] w-full">
+            <main className="bg-yellow-300 pt-8 px-2 flex flex-col min-h-[70vh] w-full">
                 <section>
                     <div className="flex justify-center gap-4">
                         <div
@@ -98,11 +100,11 @@ export const RewardCard: React.FC<RewardCardProps> = ({ reward }) => {
     const navigate = useNavigate();
     return (
         <div className="flex gap-1 flex-col border-2 border-black rounded-lg mb-2" onClick={() => navigate(`/participated-reward-event/${reward.id}`)}>
-            <h2 className="text-black px-1">{reward.reward_name}</h2>
+            <h2 className="text-black ps-3">{reward.reward_name}</h2>
             <img src={reward.reward_image} alt={reward.reward_name} className="w-full h-full object-cover rounded-lg p-1" />
             <div className="flex justify-between">
-                <h2 className="text-black px-1">Start Date: {reward.start_date}</h2>
-                <h2 className="text-black px-1">End Date: {reward.end_date}</h2>
+                <h2 className="text-black ps-3">Start Date: {reward.start_date}</h2>
+                <h2 className="text-black pe-3">End Date: {reward.end_date}</h2>
 
             </div>
         </div>
@@ -117,11 +119,11 @@ export const DrawCard: React.FC<DrawCardProps> = ({ draw }) => {
     const navigate = useNavigate();
     return (
         <div className="flex gap-1 flex-col border-2 border-black rounded-lg mb-2" onClick={() => navigate(`/participated-draw-event/${draw.id}`)}>
-            <h2 className="text-black px-1">{draw.draw_name}</h2>
+            <h2 className="text-black ps-3">{draw.draw_name}</h2>
             <img src={draw.draw_image} alt={draw.draw_name} className="w-full h-full object-cover rounded-lg p-1" />
             <div className="flex justify-between">
-                <h2 className="text-black px-1">Start Date: {new Date(draw.start_date).toLocaleDateString()}</h2>
-                <h2 className="text-black px-1">End Date: {new Date(draw.end_date).toLocaleDateString()}</h2>
+                <h2 className="text-black ps-3">Start Date: {new Date(draw.start_date).toLocaleDateString()}</h2>
+                <h2 className="text-black pe-3">End Date: {new Date(draw.end_date).toLocaleDateString()}</h2>
             </div>
         </div>
     );
