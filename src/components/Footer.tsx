@@ -12,14 +12,15 @@ type AdvertiseBanner = {
 };
 
 const Footer = () => {
-    const [advertiseBanners, setAdvertiseBanners] = useState<AdvertiseBanner[]>([]);
+    const [randomBanner, setRandomBanner] = useState<AdvertiseBanner | null>(null);
 
     useEffect(() => {
         fetch("https://bonusforyou.org/api/advertiseBanner")
             .then((res) => res.json())
             .then((data) => {
-                if (data.status) {
-                    setAdvertiseBanners(data.data);
+                if (data.status && data.data.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * data.data.length);
+                    setRandomBanner(data.data[randomIndex]);
                 }
             })
             .catch((error) => console.error("Error fetching advertise banners:", error));
@@ -27,15 +28,15 @@ const Footer = () => {
 
     return (
         <section className="flex flex-col gap-4 mt-4 items-center pb-5">
-            {advertiseBanners.map((banner) => (
-                <a key={banner.id} href={banner.link} target="_blank" rel="noopener noreferrer">
+            {randomBanner && (
+                <a href={randomBanner.link} target="_blank" rel="noopener noreferrer">
                     <img
-                        src={banner.image}
-                        alt={`Advertisement ${banner.id}`}
+                        src={randomBanner.image}
+                        alt={`Advertisement ${randomBanner.id}`}
                         className="rounded-lg shadow-lg w-[90vw] h-[120px] mx-auto"
                     />
                 </a>
-            ))}
+            )}
         </section>
     );
 };
