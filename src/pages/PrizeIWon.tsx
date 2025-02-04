@@ -217,14 +217,15 @@ export const DrawDetail: React.FC<DrawDetailProps> = ({ draw, onClose }) => {
                 <button onClick={onClose} className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-xl">
                     ✖
                 </button>
-                <h2 className="text-2xl font-semibold text-center mb-4 text-yellow-600">Congratulations!</h2>
-                <h2 className="text-3xl font-bold mb-4 text-center">{draw.draw_name}</h2>
+                <p className="text-center text-black mt-2 border font-bold border-black p-2 rounded-lg mb-3">{draw.draw_name}</p>
                 <img src={draw.draw_image} alt={draw.draw_name} className="w-full h-auto object-cover rounded-lg mb-4" />
+                <h2 className="text-md font-bold text-center text-yellow-600">Congratulation !!! </h2>
+                <h2 className="text-md font-bold text-center mb-4 text-yellow-600">you are the winner for below Prizes</h2>
                 <div className="flex flex-col gap-2">
-                    <p className="text-lg text-black">Win Prize: {draw.win_prize}</p>
-                    <p className="text-lg text-black">Early Bird Prize: {draw.ewin_prize}</p>
+                    <p className="text-lg text-black">Prize Won: {draw.win_prize}</p>
+                    <p className="text-lg text-black">Early Bird Prize Won: {draw.ewin_prize}</p>
                 </div>
-                <p className="font-bold text-center mt-3">Please Join the Channel and connect the reward</p>
+                <p className="font-bold text-center mt-3">Note : To claim your reward contact our telegram channel</p>
             </div>
         </div>
     );
