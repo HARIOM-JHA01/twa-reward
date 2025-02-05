@@ -34,6 +34,10 @@ interface Reward {
     end_date: string;
     created_at: string;
     updated_at: string;
+    win_no: string;
+    win_prize: string;
+    ewin_no: string;
+    ewin_prize: string;
 
 }
 
@@ -160,13 +164,21 @@ interface RewardCardProps {
 
 //  Card Component
 export const RewardCard: React.FC<RewardCardProps> = ({ reward, onCardClick }) => {
+    const navigate = useNavigate();
 
+    const handleGiftBoxClick = (e: React.MouseEvent<HTMLImageElement>) => {
+        e.stopPropagation(); // This prevents the parent onClick (navigate) from firing
+        onCardClick('reward', reward); // Call your handler with the correct data
+    };
     return (
-        <div className="flex gap-1 flex-col border-2 border-black rounded-lg mb-2 cursor-pointer" onClick={() => onCardClick('reward', reward)}>
+        <div className="flex gap-1 flex-col border-2 border-black rounded-lg mb-2 cursor-pointer" onClick={() => navigate(`/reward-event/${reward.id}`)}>
             <h2 className="text-black px-1">{reward.reward_name}</h2>
             <img src={reward.reward_image} alt={reward.reward_name} className="w-full h-full object-cover rounded-lg p-1" />
             <div className="flex justify-between">
                 <h2 className="text-black px-1">Start On: {new Date(reward.start_date).toLocaleDateString()}</h2>
+                <div className="cursor-pointer" onClick={handleGiftBoxClick}>
+                    <img src={giftBoxPath} alt="gift box" className="w-7 h-7" />
+                </div>
                 <h2 className="text-black px-1">End On: {new Date(reward.end_date).toLocaleDateString()}</h2>
             </div>
         </div>
@@ -182,7 +194,7 @@ interface DrawCardProps {
 
 export const DrawCard: React.FC<DrawCardProps> = ({ draw, onCardClick }) => {
     const navigate = useNavigate();
-    
+
     const handleGiftBoxClick = (e: React.MouseEvent<HTMLImageElement>) => {
         e.stopPropagation(); // This prevents the parent onClick (navigate) from firing
         onCardClick('draw', draw); // Call your handler with the correct data
@@ -225,7 +237,7 @@ export const DrawDetail: React.FC<DrawDetailProps> = ({ draw, onClose }) => {
                     <p className="text-lg text-black">Prize Won: {draw.win_prize}</p>
                     <p className="text-lg text-black">Early Bird Prize Won: {draw.ewin_prize}</p>
                 </div>
-                <p className="font-bold text-center mt-3">Note : To claim your reward contact our telegram channel</p>
+                <p className="font-bold text-center mt-3">Note : To claim your reward contact our telegram channel</p>
             </div>
         </div>
     );
@@ -239,17 +251,19 @@ interface RewardDetailProps {
 export const RewardDetail: React.FC<RewardDetailProps> = ({ reward, onClose }) => {
     return (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 flex justify-center items-center z-50">
-            <div className="bg-white p-6 rounded-lg relative shadow-lg max-w-md w-full">
+            <div className="bg-yellow-300 m-4 p-6 rounded-lg relative shadow-lg max-w-md w-full">
                 <button onClick={onClose} className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-xl">
                     ✖
                 </button>
-                <h2 className="text-2xl font-semibold text-center mb-4 text-yellow-600">You Won a Reward!</h2>
-                <h2 className="text-3xl font-bold mb-4 text-center">{reward.reward_name}</h2>
+                <p className="text-center text-black mt-2 border font-bold border-black p-2 rounded-lg mb-3">{reward.reward_name}</p>
                 <img src={reward.reward_image} alt={reward.reward_name} className="w-full h-auto object-cover rounded-lg mb-4" />
+                <h2 className="text-md font-bold text-center text-yellow-600">Congratulation !!! </h2>
+                <h2 className="text-md font-bold text-center mb-4 text-yellow-600">you are the winner for below Prizes</h2>
                 <div className="flex flex-col gap-2">
-                    <p className="text-lg"><strong className="text-yellow-600">Start Date:</strong> {new Date(reward.start_date).toLocaleDateString()}</p>
-                    <p className="text-lg"><strong className="text-yellow-600">End Date:</strong> {new Date(reward.end_date).toLocaleDateString()}</p>
+                    <p className="text-lg text-black">Prize Won: {reward.win_prize}</p>
+                    <p className="text-lg text-black">Early Bird Prize Won: {reward.ewin_prize}</p>
                 </div>
+                <p className="font-bold text-center mt-3">Note : To claim your reward contact our telegram channel</p>
             </div>
         </div>
     );
