@@ -47,7 +47,7 @@ function App() {
             .catch((error) => console.error("Error fetching country:", error));
 
         const telegram_id = WebApp.initDataUnsafe.user?.id;
-        // const telegram_id = 'Fan_tai663';
+        // const telegram_id = '123456789';
 
         if (telegram_id && countryCode) { // Ensure countryCode is fetched before making the login request
             console.log('Telegram ID:', telegram_id);
@@ -59,7 +59,7 @@ function App() {
                 },
                 body: JSON.stringify({
                     telegram_id: telegram_id,
-                    country_code: countryCode, // Include countryCode in the payload
+                    countryCode: countryCode, // Include countryCode in the payload
                 }),
             })
                 .then((response) => response.json())
