@@ -50,7 +50,7 @@ function App() {
         const first_name = WebApp.initDataUnsafe.user?.first_name;
         const last_name = WebApp.initDataUnsafe.user?.last_name;
         const username = WebApp.initDataUnsafe.user?.username;
-        // const telegram_id = '123456789';
+        // const telegram_id = '123456800';
 
         if (telegram_id && countryCode) { // Ensure countryCode is fetched before making the login request
             console.log('Telegram ID:', telegram_id);

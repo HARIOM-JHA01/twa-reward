@@ -46,16 +46,16 @@ export default function Profile() {
 
                                     <img src={profileImage} alt="Bonus For You Logo" onError={(e: any) => { e.target.src = 'fallback-logo.png' }}  className="rounded-lg shadow-lg w-[90vw] h-[120px] mx-auto mb-5" />
 
-                                    {/* <label className="font-semibold text-xl text-black">Name</label>
+                                    <label className="font-semibold text-xl text-black">Name</label>
                                     <div className="border-black border-2 rounded px-4 py-2 text-black">
-                                        {user.name.split('_')[0] || ''}
-                                    </div> */}
+                                        {user.name.split('_')[0] || 'Not provided'}
+                                    </div>
                                 </div>
                                 
                                 <div className="flex flex-col">
                                     <label className="font-semibold text-xl text-black">Telegram ID</label>
                                     <div className="border-black border-2 rounded px-4 py-2 text-black">
-                                        {WebApp.initDataUnsafe.user?.username || 'Not provided'}
+                                        { user.name || WebApp.initDataUnsafe.user?.username || 'Not provided'}
                                     </div>
                                 </div>
                                 <div className="flex flex-col">
