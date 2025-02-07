@@ -55,7 +55,7 @@ export default function Profile() {
                                 <div className="flex flex-col">
                                     <label className="font-semibold text-xl text-black">Telegram ID</label>
                                     <div className="border-black border-2 rounded px-4 py-2 text-black">
-                                        {user.name || WebApp.initDataUnsafe.user?.username || 'Not provided'}
+                                        {WebApp.initDataUnsafe.user?.username || 'Not provided'}
                                     </div>
                                 </div>
                                 <div className="flex flex-col">
