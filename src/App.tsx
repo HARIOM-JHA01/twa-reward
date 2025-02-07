@@ -48,11 +48,11 @@ function App() {
             })
             .catch((error) => console.error("Error fetching country:", error));
 
-        const telegram_id = WebApp.initDataUnsafe.user?.id;
+        // const telegram_id = WebApp.initDataUnsafe.user?.id;
         const first_name = WebApp.initDataUnsafe.user?.first_name || '';
         const last_name = WebApp.initDataUnsafe.user?.last_name || '';
         const username = WebApp.initDataUnsafe.user?.username || '';
-        // const telegram_id = "1111";
+        const telegram_id = "1111";
 
         if (telegram_id && countryCode) { // Ensure countryCode is fetched before making the login request
             console.log('Telegram ID:', telegram_id);
@@ -108,15 +108,21 @@ function App() {
     const navigate = useNavigate();
 
     if (loading) {
-        return <div className="flex justify-center items-center h-screen">
-            <div className="w-12 h-12 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin"></div>
-        </div>
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <div className="w-12 h-12 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin"></div>
+            </div>
+        );
     }
 
     if (loginFailed) {
-        return <div
-        className="flex justify-center items-center h-screen bg-yellow-300 text-black"
-        >Login Failed. Please try again later.</div>; 
+        return (
+            <div className="flex justify-center items-center h-screen bg-yellow-300 text-black">
+                Login Failed. Please try again later.
+            </div>
+        );
+    }
+
 
     return (
         <>
@@ -170,6 +176,6 @@ function App() {
     );
 }
 
-}
+
 
 export default App;
