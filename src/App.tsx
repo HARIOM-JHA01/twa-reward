@@ -20,6 +20,8 @@ function App() {
 
     const [promotionBanner, setPromotionBanner] = useState<PromotionBanner | null>(null);
     const [countryCode, setCountryCode] = useState<string | null>(null); // State to store country code
+    const [loading, setLoading] = useState(true); // Add a loading state
+    const [loginFailed, setLoginFailed] = useState(false); // Add loginFailed state
 
     const { t } = useTranslation();
 
@@ -50,7 +52,7 @@ function App() {
         const first_name = WebApp.initDataUnsafe.user?.first_name || '';
         const last_name = WebApp.initDataUnsafe.user?.last_name || '';
         const username = WebApp.initDataUnsafe.user?.username || '';
-        // const telegram_id = '123456800';
+        // const telegram_id = "1111";
 
         if (telegram_id && countryCode) { // Ensure countryCode is fetched before making the login request
             console.log('Telegram ID:', telegram_id);
@@ -83,18 +85,38 @@ function App() {
                         setIsLoggedIn(true);
                     } else {
                         console.error('Failed to fetch user data.');
+                        setLoginFailed(true); // Set loginFailed to true
                     }
                 })
                 .catch((error) => {
                     console.error('Failed to fetch user data:', error);
+                    setLoginFailed(true); // Set loginFailed to true
+                })
+                .finally(() => {
+                    setLoading(false); // Set loading to false regardless of success or failure
                 });
         } else if (!telegram_id) {
             console.error('Telegram ID not found.');
+            setLoginFailed(true);
+            setLoading(false);
+        } else {
+            setLoading(false); // Set loading to false when countryCode is not yet available
         }
 
     }, [setUser, setIsLoggedIn, countryCode]); // Add countryCode as a dependency
 
     const navigate = useNavigate();
+
+    if (loading) {
+        return <div className="flex justify-center items-center h-screen">
+            <div className="w-12 h-12 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+    }
+
+    if (loginFailed) {
+        return <div
+        className="flex justify-center items-center h-screen bg-yellow-300 text-black"
+        >Login Failed. Please try again later.</div>; 
 
     return (
         <>
