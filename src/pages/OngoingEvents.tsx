@@ -42,7 +42,7 @@ export default function OngoingEvents() {
     return (
         <div className="bg-yellow-300">
             <Header />
-            <main className="bg-yellow-300 pt-8 px-2 flex flex-col min-h-[70vh] w-full">
+            <main className="bg-yellow-300 pt-4 px-2 flex flex-col min-h-[70vh] w-full">
                 <section>
                     <div className="flex justify-center gap-4">
                         <div
@@ -59,9 +59,9 @@ export default function OngoingEvents() {
                         </div>
                     </div>
                 </section>
-                <section className="mt-8">
+                <section className="mt-2">
                     {activeTab === "available" && (
-                        <div className="p-2  rounded-md shadow-md">
+                        <div className="p-2  rounded-md text-center shadow-md">
                             {!draws || draws.length === 0 ? (
                                 <h2>No Data to Display</h2>
                             ) :

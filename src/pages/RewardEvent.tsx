@@ -188,9 +188,9 @@ export default function RewardEvent() {
 
     if (!rewardDetail) {
         return <div className="flex justify-center items-center h-screen">
-        <div className="w-12 h-12 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin"></div>
-    </div>
-    ;
+            <div className="w-12 h-12 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+            ;
     }
 
     return (
@@ -239,14 +239,14 @@ export default function RewardEvent() {
                         >
                             VIEW POST TO JOIN PROGRAM
                         </button>
-                        {/* <div
+                        <div
                             className="rounded-full w-12 h-12 bg-red-500 justify-center items-center flex"
                             onClick={() => {
                                 navigator.clipboard.writeText(rewardDetail.channel_link || "");
                             }}
                         >
                             <img className="w-6 h-6" src="/share.png" alt="Share" />
-                        </div> */}
+                        </div>
                     </div>
                 )}
                 {isWithinDateRange && !hasJoined && <h3 className="text-black">User Left to Join: {rewardDetail.join_user}</h3>}
@@ -257,7 +257,7 @@ export default function RewardEvent() {
                 )}
                 {!hasJoined && (
                     <p className="text-center text-black text-sm p-4 rounded-lg">
-                        View post, Join Channel and copy paste link, comeback and paste link to bonusforyou
+                        View Events Post Detail, Join Channel and Copy Events Post Link, Comeback and paste Link to BonusforYou
                     </p>
                 )}
                 <Footer />

@@ -44,7 +44,7 @@ export default function AvailableEvents() {
     return (
         <div className="bg-yellow-300">
             <Header />
-            <main className="bg-yellow-300 pt-8 px-2 flex flex-col min-h-[70vh] w-full">
+            <main className="bg-yellow-300 pt-4 px-2 flex flex-col min-h-[70vh] w-full">
                 <section>
                     <div className="flex justify-center gap-4">
                         <div
@@ -61,9 +61,9 @@ export default function AvailableEvents() {
                         </div>
                     </div>
                 </section>
-                <section className="mt-8">
+                <section className="mt-4">
                     {activeTab === "available" && (
-                        <div className="p-2  rounded-md shadow-md">
+                        <div className="p-2 text-center  rounded-md shadow-md">
                             {!draws || draws.length === 0 ? (
                                 <h2>No Data to Display</h2>
                             ) :
@@ -73,7 +73,7 @@ export default function AvailableEvents() {
                         </div>
                     )}
                     {activeTab === "ongoing" && (
-                        <div className="">
+                        <div className="p-2 text-center  rounded-md shadow-md">
                             {!rewards || rewards.length === 0 ? (
                                 <h2
                                     className="flex justify-center items-center"

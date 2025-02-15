@@ -230,14 +230,14 @@ export default function DrawEvent() {
                         >
                             VIEW POST TO JOIN PROGRAM
                         </button>
-                        {/* <div
+                        <div
                             className="rounded-full w-12 h-12 bg-red-500 justify-center items-center flex"
                             onClick={() => {
                                 navigator.clipboard.writeText(rewardDetail.channel_link || "");
                             }}
                         >
                             <img className="w-6 h-6" src="/share.png" alt="Share" />
-                        </div> */}
+                        </div>
                     </div>
                 )}
                 {isWithinDateRange && !hasJoined && <h3 className="text-black">User Left to Join: {rewardDetail.join_user}</h3>}
@@ -249,7 +249,7 @@ export default function DrawEvent() {
 
                 {!hasJoined && (
                     <p className="text-center text-black text-sm p-4 rounded-lg">
-                        View post, Join Channel and copy paste link, comeback and paste link to bonusforyou
+                        View Events Post Detail, Join Channel and Copy Events Post Link, Comeback and paste Link to BonusforYou
                     </p>
                 )}
                 <Footer />

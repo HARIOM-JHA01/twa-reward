@@ -179,9 +179,9 @@ export default function PrizeIWonDraw() {
 
     if (!rewardDetail) {
         return <div className="flex justify-center items-center h-screen">
-        <div className="w-12 h-12 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin"></div>
-    </div>
-    ;
+            <div className="w-12 h-12 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+            ;
     }
 
     return (
@@ -249,7 +249,7 @@ export default function PrizeIWonDraw() {
 
                 {!hasJoined && (
                     <p className="text-center text-black text-sm p-4 rounded-lg">
-                        View post, Join Channel and copy paste link, comeback and paste link to bonusforyou
+                        View Events Post Detail, Join Channel and Copy Events Post Link, Comeback and paste Link to BonusforYou
                     </p>
                 )}
                 <Footer />

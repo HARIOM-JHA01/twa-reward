@@ -21,7 +21,7 @@ const resources = {
         eventBrief: "Event Brief",
         viewPostToJoinProgram: "View Post to Join Program",
         userLeftToJoin: "User Left to Join",
-        text: "View post, Join Channel and copy paste link, comeback and paste link to bonusforyou"
+        text: "View Events Post Detail, Join Channel and Copy Events Post Link, Comeback and paste Link to BonusforYou"
       },
       privacy: {
         title: "Privacy Policy",

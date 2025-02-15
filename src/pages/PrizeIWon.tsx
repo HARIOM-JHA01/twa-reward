@@ -103,7 +103,7 @@ export default function PrizeIWon() {
     return (
         <div className="bg-yellow-300">
             <Header />
-            <main className="bg-yellow-300 pt-8 px-2 flex flex-col min-h-[70vh] w-full relative">
+            <main className="bg-yellow-300 pt-4 px-2 flex flex-col min-h-[70vh] w-full relative">
                 <section>
                     <div className="flex justify-center gap-4">
                         <div
@@ -120,12 +120,12 @@ export default function PrizeIWon() {
                         </div>
                     </div>
                 </section>
-                <section className="mt-8">
+                <section className="mt-4">
                     {activeTab === "available" && (
                         <div >
                             {!draws || draws.length === 0 ? (
                                 <h2
-                                    className="flex justify-center items-center"
+                                    className="p-2 text-center  rounded-md shadow-md"
                                 >No Data to Display</h2>
                             ) :
                                 draws.map(draw => (
@@ -137,7 +137,7 @@ export default function PrizeIWon() {
                         <div >
                             {!rewards || rewards.length === 0 ? (
                                 <h2
-                                    className="flex justify-center items-center"
+                                    className="p-2 text-center  rounded-md shadow-md"
                                 >No Data to Display</h2>
                             ) : (
                                 rewards.map(reward => (

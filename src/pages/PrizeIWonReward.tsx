@@ -249,7 +249,7 @@ export default function PrizeIWonReward() {
 
                 {!hasJoined && (
                     <p className="text-center text-black text-sm p-4 rounded-lg">
-                        View post, Join Channel and copy paste link, comeback and paste link to bonusforyou
+                        View Events Post Detail, Join Channel and Copy Events Post Link, Comeback and paste Link to BonusforYou
                     </p>
                 )}
                 <Footer />
