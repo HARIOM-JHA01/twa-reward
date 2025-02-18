@@ -235,7 +235,7 @@ export default function DrawEvent() {
                 )}
                 {isWithinDateRange && !hasJoined && <h3 className="text-black">User Left to Join: {rewardDetail.join_user}</h3>}
                 {!isWithinDateRange && countdown && !hasJoined && (
-                    <h3 className="text-center text-black font-bold text-3xl mt-3">
+                    <h3 className="text-center text-black font-bold text-2xl mt-3">
                         {countdown}
                     </h3>
                 )}
@@ -249,6 +249,7 @@ export default function DrawEvent() {
                     className="rounded-full w-12 h-12 bg-red-500 justify-center items-center flex mx-auto"
                     onClick={() => {
                         navigator.clipboard.writeText(window.location.href);
+                        WebApp.showAlert("Event link has been copied successfully.  Paste it to telegram to share it with your friends")
                     }}
                 >
                     <img className="w-6 h-6" src="/share.png" alt="Share" />

@@ -137,34 +137,34 @@ function App() {
                         />
                     )}
 
-                    <section className="flex flex-col gap-4 mt-16 mb-4 items-center">
+                    <section className="flex flex-col gap-4 mt-12 mb-4 items-center">
                         <div
                             onClick={() => navigate("/available-rewards")}
-                            className="py-3 bg-[#37474F] min-w-[300px] text-center rounded-md text-white hover:font-bold hover:cursor-pointer max-w-[300px]"
+                            className="py-3 bg-[#37474F]  text-center rounded-md text-white hover:font-bold hover:cursor-pointer w-[90vw]"
                         >
                             {t('app.availableEvents')}
                         </div>
                         <div
                             onClick={() => navigate("/ongoing-rewards")}
-                            className="py-3 bg-[#37474F] min-w-[300px] text-center rounded-md text-white hover:font-bold hover:cursor-pointer max-w-[300px]"
+                            className="py-3 bg-[#37474F] w-[90vw] text-center rounded-md text-white hover:font-bold hover:cursor-pointer"
                         >
                             {t('app.ongoingEvents')}
                         </div>
                         <div
                             onClick={() => navigate("/participated-rewards")}
-                            className="py-3 bg-[#37474F] min-w-[300px] text-center rounded-md text-white hover:font-bold hover:cursor-pointer max-w-[300px]"
+                            className="py-3 bg-[#37474F] w-[90vw] text-center rounded-md text-white hover:font-bold hover:cursor-pointer"
                         >
                             {t('app.participatedEvents')}
                         </div>
                         <div
                             onClick={() => navigate("/prize-i-won")}
-                            className="py-3 bg-[#37474F] min-w-[300px] text-center rounded-md text-white hover:font-bold hover:cursor-pointer max-w-[300px]"
+                            className="py-3 bg-[#37474F] w-[90vw] text-center rounded-md text-white hover:font-bold hover:cursor-pointer"
                         >
                             {t('app.prizeIWon')}
                         </div>
                         <div
                             onClick={() => navigate("/profile")}
-                            className="py-3 bg-[#37474F] min-w-[300px] text-center rounded-md text-white hover:font-bold hover:cursor-pointer max-w-[300px]"
+                            className="py-3 bg-[#37474F] w-[90vw] text-center rounded-md text-white hover:font-bold hover:cursor-pointer"
                         >
                             {t('app.myProfile')}
                         </div>
