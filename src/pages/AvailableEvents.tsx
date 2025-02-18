@@ -165,7 +165,7 @@ const DrawCard: React.FC<DrawCardProps> = ({ draw, navigate }) => {
             <img
                 src={draw.draw_image}
                 alt={draw.draw_name}
-                className="w-full h-[13vh] object-cover rounded-lg p-1"
+                className="rounded-lg shadow-lg w-[90vw] h-[120px] mx-auto"
             />
             <div className="flex justify-between">
                 <h2 className="text-black ps-3">

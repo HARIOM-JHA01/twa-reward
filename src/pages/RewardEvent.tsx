@@ -197,7 +197,7 @@ export default function RewardEvent() {
         <div className="bg-yellow-300">
             <Header />
             <main className="bg-yellow-300 flex flex-col w-full min-h-screen p-4">
-                <img src={rewardDetail.draw_image} alt={rewardDetail.draw_name} className="rounded-lg shadow-lg w-[90vw] max-h-[120px] mx-auto my-3" />
+                <img src={rewardDetail.draw_image} alt={rewardDetail.draw_name} className="rounded-lg shadow-lg w-[90vw] h-[120px] mx-auto my-3 object-fill" />
                 <h2 className="text-center text-black font-bold">Event Title:</h2>
                 <p className="text-center text-black border border-black p-2 rounded-lg">{rewardDetail.draw_name}</p>
                 <h2 className="text-center text-black font-bold">Events Detail and Join Channel as Subscriber:</h2>
@@ -239,20 +239,13 @@ export default function RewardEvent() {
                         >
                             VIEW POST TO JOIN PROGRAM
                         </button>
-                        <div
-                            className="rounded-full w-12 h-12 bg-red-500 justify-center items-center flex"
-                            onClick={() => {
-                                navigator.clipboard.writeText(rewardDetail.channel_link || "");
-                            }}
-                        >
-                            <img className="w-6 h-6" src="/share.png" alt="Share" />
-                        </div>
+
                     </div>
                 )}
                 {isWithinDateRange && !hasJoined && <h3 className="text-black">User Left to Join: {rewardDetail.join_user}</h3>}
                 {!isWithinDateRange && countdown && !hasJoined && (
-                    <h3 className="text-center text-black font-bold">
-                        Countdown to Start: {countdown}
+                    <h3 className="text-center text-black font-bold text-3xl mt-3">
+                        {countdown}
                     </h3>
                 )}
                 {!hasJoined && (
@@ -260,6 +253,14 @@ export default function RewardEvent() {
                         View Events Post Detail, Join Channel and Copy Events Post Link, Comeback and paste Link to BonusforYou
                     </p>
                 )}
+                <div
+                    className="rounded-full w-12 h-12 bg-red-500 justify-center items-center flex mx-auto"
+                    onClick={() => {
+                        navigator.clipboard.writeText(window.location.href);
+                    }}
+                >
+                    <img className="w-6 h-6" src="/share.png" alt="Share" />
+                </div>
                 <Footer />
                 {isModalOpen && (
                     <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">

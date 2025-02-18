@@ -137,7 +137,7 @@ function App() {
                         />
                     )}
 
-                    <section className="flex flex-col gap-4 my-auto items-center">
+                    <section className="flex flex-col gap-4 mt-16 mb-4 items-center">
                         <div
                             onClick={() => navigate("/available-rewards")}
                             className="py-3 bg-[#37474F] min-w-[300px] text-center rounded-md text-white hover:font-bold hover:cursor-pointer max-w-[300px]"
