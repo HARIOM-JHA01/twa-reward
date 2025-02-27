@@ -55,12 +55,12 @@ export default function AvailableEvents() {
     return (
         <div className="bg-yellow-300">
             <Header />
-            <main className="bg-yellow-300 pt-4 px-2 flex flex-col min-h-[70vh] w-full">
-                <div className="text-center text-3xl font-bold text-black">
+            <main className="bg-yellow-300 flex flex-col min-h-[70vh] w-full">
+                <div className="text-center text-xl font-bold text-white bg-gray-700">
                     Available Events
                 </div>
                 <section className="mt-4">
-                    <div className="rounded-md shadow-md">
+                    <div className="rounded-md shadow-md px-2">
                         {rewards?.length === 0 ? (
                             <h2 className="p-2 text-center rounded-md shadow-md">
                                 No Data to Display

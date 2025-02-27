@@ -54,14 +54,14 @@ export default function PrizeIWon() {
     return (
         <div className="bg-yellow-300">
             <Header />
-            <main className="bg-yellow-300 pt-4 px-2 flex flex-col min-h-[70vh] w-full relative">
-                <div className="text-center text-3xl font-bold text-black">
+            <main className="bg-yellow-300 flex flex-col min-h-[70vh] w-full relative">
+                <div className="text-center text-xl font-bold text-white bg-gray-700">
                     Prize I Won
                 </div>
                 <section className="mt-4">
                     <div>
                         {rewards.length === 0 ? (
-                            <h2 className="p-2 text-center rounded-md shadow-md">
+                            <h2 className="p-2 text-center rounded-md shadow-md px-2">
                                 No Data to Display
                             </h2>
                         ) : (

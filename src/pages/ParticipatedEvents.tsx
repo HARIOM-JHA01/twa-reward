@@ -9,33 +9,49 @@ import { Reward } from "../types/type";
 export default function AvailableEvents() {
     const [rewards, setRewards] = useState<Reward[]>([]);
     const userContext = useContext(UserContext);
-    const user = userContext?.user || { id: 72 }; // Default user ID
+    const user = userContext?.user;
 
     useEffect(() => {
         fetch(
             `https://bonusforyou.org/api/user/Participated_rewards?user_id=${user.id}`
         )
-            .then((response) => response.json())
-            .then((data) => setRewards(data.data))
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then((data) => {
+                if (data && Array.isArray(data.data)) {
+                    setRewards(data.data);
+                } else {
+                    console.error("Invalid API response structure", data);
+                    setRewards([]);
+                }
+            })
             .catch((error) => console.error("Error fetching rewards:", error));
 
-        WebApp.BackButton.show();
-        WebApp.BackButton.onClick(() => {
-            window.history.back();
-        });
+        if (WebApp?.BackButton) {
+            WebApp.BackButton.show();
+            WebApp.BackButton.onClick(() => {
+                window.history.back();
+            });
+        } else {
+            console.warn("WebApp SDK not available");
+        }
     }, [user.id]);
 
     return (
         <div className="bg-yellow-300">
             <Header />
-            <main className="bg-yellow-300 pt-4 px-2 flex flex-col min-h-[70vh] w-full">
-                <div className="text-center text-3xl font-bold text-black">
+            <main className="bg-yellow-300 flex flex-col min-h-[70vh] w-full">
+                <div className="text-center text-xl font-bold text-white bg-gray-700 p-3">
                     Participated Events
                 </div>
                 <section className="mt-4">
-                    <div className="p-2 text-center rounded-md shadow-md">
+                    <div className="rounded-md shadow-md px-2">
                         {rewards.length === 0 ? (
-                            <h2 className="flex justify-center items-center">
+                            <h2 className="p-2 text-center rounded-md shadow-md">
                                 No Data to Display
                             </h2>
                         ) : (
@@ -57,22 +73,33 @@ interface RewardCardProps {
 
 export const RewardCard: React.FC<RewardCardProps> = ({ reward }) => {
     const navigate = useNavigate();
+
+    if (!reward) return null;
+
     return (
         <div
-            className="flex gap-1 flex-col border-2 border-black rounded-lg mb-2"
+            className="flex gap-1 flex-col border-2 border-black rounded-lg mb-2 cursor-pointer"
             onClick={() => navigate(`/participated-reward-event/${reward.id}`)}
         >
-            <h2 className="text-black ps-3">{reward.reward_name}</h2>
-            <img
-                src={reward.reward_image}
-                alt={reward.reward_name}
-                className="w-full h-full object-cover rounded-lg p-1"
-            />
-            <div className="flex justify-between">
+            <h2 className="text-black ps-3">
+                {reward.reward_name || "No Name"}
+            </h2>
+            {reward.reward_image ? (
+                <img
+                    src={reward.reward_image}
+                    alt={reward.reward_name || "No Image"}
+                    className="w-full h-40 object-cover rounded-lg p-1"
+                />
+            ) : (
+                <p className="text-center text-gray-500">No Image Available</p>
+            )}
+            <div className="flex justify-between p-2">
                 <h2 className="text-black ps-3">
-                    Start Date: {reward.start_date}
+                    Start Date: {reward.start_date || "N/A"}
                 </h2>
-                <h2 className="text-black pe-3">End Date: {reward.end_date}</h2>
+                <h2 className="text-black pe-3">
+                    End Date: {reward.end_date || "N/A"}
+                </h2>
             </div>
         </div>
     );
