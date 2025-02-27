@@ -56,7 +56,7 @@ export default function AvailableEvents() {
         <div className="bg-yellow-300">
             <Header />
             <main className="bg-yellow-300 flex flex-col min-h-[70vh] w-full">
-                <div className="text-center text-xl font-bold text-white bg-gray-700">
+                <div className="text-center text-sm font-bold text-white bg-gray-700">
                     Available Events
                 </div>
                 <section className="mt-4">
