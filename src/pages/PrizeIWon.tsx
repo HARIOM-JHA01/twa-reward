@@ -55,7 +55,7 @@ export default function PrizeIWon() {
         <div className="bg-yellow-300">
             <Header />
             <main className="bg-yellow-300 flex flex-col min-h-[70vh] w-full relative">
-                <div className="text-center text-xl font-bold text-white bg-gray-700">
+                <div className="text-center text-lg font-bold text-white bg-gray-500">
                     Prize I Won
                 </div>
                 <section className="mt-4">

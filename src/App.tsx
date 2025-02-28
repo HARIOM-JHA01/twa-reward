@@ -3,7 +3,7 @@ import WebApp from "@twa-dev/sdk";
 import Header from "./components/Header";
 import { useNavigate } from "react-router-dom";
 import Footer from "./components/Footer";
-import { UserContext } from './context/UserContext';
+import { UserContext } from "./context/UserContext";
 import { useTranslation } from "react-i18next";
 import headerImage from "/profile.jpg";
 type PromotionBanner = {
@@ -18,7 +18,8 @@ function App() {
     }
     const { setUser, setIsLoggedIn } = userContext;
 
-    const [promotionBanner, setPromotionBanner] = useState<PromotionBanner | null>(null);
+    const [promotionBanner, setPromotionBanner] =
+        useState<PromotionBanner | null>(null);
     const [countryCode, setCountryCode] = useState<string | null>(null); // State to store country code
     const [loading, setLoading] = useState(true); // Add a loading state
     const [loginFailed, setLoginFailed] = useState(false); // Add loginFailed state
@@ -36,7 +37,9 @@ function App() {
                     setPromotionBanner(data.data);
                 }
             })
-            .catch((error) => console.error("Error fetching promotion banner:", error));
+            .catch((error) =>
+                console.error("Error fetching promotion banner:", error)
+            );
 
         // Fetch country information
         fetch("https://bonusforyou.org/api/user/get-country")
@@ -49,25 +52,26 @@ function App() {
             .catch((error) => console.error("Error fetching country:", error));
 
         const telegram_id = WebApp.initDataUnsafe.user?.id;
-        const first_name = WebApp.initDataUnsafe.user?.first_name || '';
-        const last_name = WebApp.initDataUnsafe.user?.last_name || '';
-        const username = WebApp.initDataUnsafe.user?.username || '';
+        const first_name = WebApp.initDataUnsafe.user?.first_name || "";
+        const last_name = WebApp.initDataUnsafe.user?.last_name || "";
+        const username = WebApp.initDataUnsafe.user?.username || "";
         // const telegram_id = "1111";
 
-        if (telegram_id && countryCode) { // Ensure countryCode is fetched before making the login request
-            console.log('Telegram ID:', telegram_id);
-            console.log('Country Code:', countryCode);
-            fetch('https://bonusforyou.org/api/user/login', {
-                method: 'POST',
+        if (telegram_id && countryCode) {
+            // Ensure countryCode is fetched before making the login request
+            console.log("Telegram ID:", telegram_id);
+            console.log("Country Code:", countryCode);
+            fetch("https://bonusforyou.org/api/user/login", {
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
                     telegram_id: telegram_id,
                     countryCode: countryCode,
-                    first_name: first_name || '',
-                    last_name: last_name || '',
-                    username: username || '',
+                    first_name: first_name || "",
+                    last_name: last_name || "",
+                    username: username || "",
                 }),
             })
                 .then((response) => response.json())
@@ -84,25 +88,24 @@ function App() {
                         });
                         setIsLoggedIn(true);
                     } else {
-                        console.error('Failed to fetch user data.');
+                        console.error("Failed to fetch user data.");
                         setLoginFailed(true); // Set loginFailed to true
                     }
                 })
                 .catch((error) => {
-                    console.error('Failed to fetch user data:', error);
+                    console.error("Failed to fetch user data:", error);
                     setLoginFailed(true); // Set loginFailed to true
                 })
                 .finally(() => {
                     setLoading(false); // Set loading to false regardless of success or failure
                 });
         } else if (!telegram_id) {
-            console.error('Telegram ID not found.');
+            console.error("Telegram ID not found.");
             setLoginFailed(true);
             setLoading(false);
         } else {
             setLoading(false); // Set loading to false when countryCode is not yet available
         }
-
     }, [setUser, setIsLoggedIn, countryCode]); // Add countryCode as a dependency
 
     const navigate = useNavigate();
@@ -123,11 +126,13 @@ function App() {
         );
     }
 
-
     return (
         <>
             <Header />
             <div className="bg-yellow-300 min-h-screen flex flex-col z-10">
+                <div className="text-center text-lg font-bold text-white bg-gray-500">
+                    My Panel
+                </div>
                 <main className="bg-yellow-300 pt-4 flex flex-col justify-start items-center w-full flex-grow">
                     {promotionBanner && (
                         <img
@@ -137,36 +142,36 @@ function App() {
                         />
                     )}
 
-                    <section className="flex flex-col gap-4 mt-12 mb-4 items-center">
+                    <section className="flex flex-col gap-4 mt-8 mb-4 items-center">
                         <div
                             onClick={() => navigate("/available-rewards")}
                             className="py-3 bg-[#37474F]  text-center rounded-md text-white hover:font-bold hover:cursor-pointer w-[90vw]"
                         >
-                            {t('app.availableEvents')}
+                            {t("app.availableEvents")}
                         </div>
                         <div
                             onClick={() => navigate("/ongoing-rewards")}
                             className="py-3 bg-[#37474F] w-[90vw] text-center rounded-md text-white hover:font-bold hover:cursor-pointer"
                         >
-                            {t('app.ongoingEvents')}
+                            {t("app.ongoingEvents")}
                         </div>
                         <div
                             onClick={() => navigate("/participated-rewards")}
                             className="py-3 bg-[#37474F] w-[90vw] text-center rounded-md text-white hover:font-bold hover:cursor-pointer"
                         >
-                            {t('app.participatedEvents')}
+                            {t("app.participatedEvents")}
                         </div>
                         <div
                             onClick={() => navigate("/prize-i-won")}
                             className="py-3 bg-[#37474F] w-[90vw] text-center rounded-md text-white hover:font-bold hover:cursor-pointer"
                         >
-                            {t('app.prizeIWon')}
+                            {t("app.prizeIWon")}
                         </div>
                         <div
                             onClick={() => navigate("/profile")}
                             className="py-3 bg-[#37474F] w-[90vw] text-center rounded-md text-white hover:font-bold hover:cursor-pointer"
                         >
-                            {t('app.myProfile')}
+                            {t("app.myProfile")}
                         </div>
                     </section>
                 </main>
@@ -175,7 +180,5 @@ function App() {
         </>
     );
 }
-
-
 
 export default App;
