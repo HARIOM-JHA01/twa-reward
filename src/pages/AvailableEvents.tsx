@@ -24,16 +24,30 @@ export default function AvailableEvents() {
                 const response = await fetch(
                     `https://bonusforyou.org/api/user/rewarddrawlist?user_id=${user.id}`
                 );
+
                 if (!response.ok) {
                     throw new Error(
                         `Failed to fetch data with status: ${response.status}`
                     );
                 }
+
                 const data = await response.json();
+                console.log("Data fetched:", data);
+
+                if (
+                    data.status === false ||
+                    !data.data ||
+                    data.data.length === 0
+                ) {
+                    console.warn("No rewards available:", data.message);
+                    setRewards([]); // Ensure UI displays "No Data to Display"
+                    return;
+                }
+
                 setRewards(data.data);
             } catch (error) {
                 console.error("Error fetching data:", error);
-                setRewards(null);
+                setRewards([]); // If an error occurs, treat it as no data
             }
         };
 
@@ -61,12 +75,16 @@ export default function AvailableEvents() {
                 </div>
                 <section className="mt-4">
                     <div className="rounded-md shadow-md px-2">
-                        {rewards?.length === 0 ? (
+                        {rewards === null ? (
+                            <h2 className="p-2 text-center rounded-md shadow-md">
+                                Loading...
+                            </h2>
+                        ) : rewards.length === 0 ? (
                             <h2 className="p-2 text-center rounded-md shadow-md">
                                 No Data to Display
                             </h2>
                         ) : (
-                            rewards?.map((reward) => (
+                            rewards.map((reward) => (
                                 <RewardCard
                                     key={reward.id}
                                     reward={reward}

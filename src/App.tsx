@@ -51,11 +51,11 @@ function App() {
             })
             .catch((error) => console.error("Error fetching country:", error));
 
-        const telegram_id = WebApp.initDataUnsafe.user?.id;
+        // const telegram_id = WebApp.initDataUnsafe.user?.id;
         const first_name = WebApp.initDataUnsafe.user?.first_name || "";
         const last_name = WebApp.initDataUnsafe.user?.last_name || "";
         const username = WebApp.initDataUnsafe.user?.username || "";
-        // const telegram_id = "1111";
+        const telegram_id = "1111";
 
         if (telegram_id && countryCode) {
             // Ensure countryCode is fetched before making the login request
