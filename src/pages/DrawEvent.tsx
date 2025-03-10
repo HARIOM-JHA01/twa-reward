@@ -143,7 +143,7 @@ export default function DrawEvent() {
             const payload = {
                 user_id: user.id,
                 Draw_id: id,
-                Verification_link: verificationLink.toLowerCase(),
+                Verification_link: verificationLink?.toLowerCase(),
             };
 
             fetch(`https://bonusforyou.org/api/user/joinDraw`, {
