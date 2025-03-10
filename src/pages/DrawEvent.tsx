@@ -8,7 +8,9 @@ import { IndividualDraw } from "../types/type";
 
 export default function DrawEvent() {
     const { id } = useParams<{ id: string }>();
-    const [rewardDetail, setRewardDetail] = useState<IndividualDraw | null>(null);
+    const [rewardDetail, setRewardDetail] = useState<IndividualDraw | null>(
+        null
+    );
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [verificationLink, setVerificationLink] = useState("");
     const [isWithinDateRange, setIsWithinDateRange] = useState(false);
@@ -35,7 +37,9 @@ export default function DrawEvent() {
             fetch(`https://bonusforyou.org/api/user/drawlistsingle/${id}`)
                 .then((response) => {
                     if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
+                        throw new Error(
+                            `HTTP error! status: ${response.status}`
+                        );
                     }
                     return response.json();
                 })
@@ -43,10 +47,16 @@ export default function DrawEvent() {
                     if (data.status) {
                         const rewardData = data.data;
                         setRewardDetail(rewardData);
-                        checkDateRange(rewardData.start_date, rewardData.end_date)
+                        checkDateRange(
+                            rewardData.start_date,
+                            rewardData.end_date
+                        );
                         checkIfAlreadyJoined(String(user.id), id);
                     } else {
-                        console.error("Error fetching reward details:", data.message);
+                        console.error(
+                            "Error fetching reward details:",
+                            data.message
+                        );
                     }
                 })
                 .catch((error) => {
@@ -67,17 +77,22 @@ export default function DrawEvent() {
 
     const checkIfAlreadyJoined = async (userId: string, drawId: string) => {
         if (!userId || !drawId) {
-            console.warn("User ID or Draw ID is missing. Cannot check if already joined.");
+            console.warn(
+                "User ID or Draw ID is missing. Cannot check if already joined."
+            );
             return;
         }
 
         try {
-            const response = await fetch(`https://bonusforyou.org/api/user/CheckUserJoinDraw/${userId}/${drawId}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
+            const response = await fetch(
+                `https://bonusforyou.org/api/user/CheckUserJoinDraw/${userId}/${drawId}`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
 
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
@@ -87,15 +102,14 @@ export default function DrawEvent() {
             console.log("user id:", userId);
             console.log("draw id:", drawId);
             if (data == 1) {
-                setHasJoined(true)
+                setHasJoined(true);
             } else {
-                setHasJoined(false)
+                setHasJoined(false);
             }
-
         } catch (error) {
             console.error("Error joining draw:", error);
         }
-    }
+    };
 
     const calculateCountdown = (startDate: Date) => {
         const interval = setInterval(() => {
@@ -111,9 +125,7 @@ export default function DrawEvent() {
                 const hours = Math.floor((timeDiff / (1000 * 60 * 60)) % 24);
                 const minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
                 const seconds = Math.floor((timeDiff / 1000) % 60);
-                setCountdown(
-                    `${days}D ${hours}H ${minutes}M ${seconds}S`
-                );
+                setCountdown(`${days}D ${hours}H ${minutes}M ${seconds}S`);
             }
         }, 1000);
         return () => clearInterval(interval);
@@ -131,7 +143,7 @@ export default function DrawEvent() {
             const payload = {
                 user_id: user.id,
                 Draw_id: id,
-                Verification_link: verificationLink,
+                Verification_link: verificationLink.toLowerCase(),
             };
 
             fetch(`https://bonusforyou.org/api/user/joinDraw`, {
@@ -157,7 +169,10 @@ export default function DrawEvent() {
                         console.error("Error joining draw:", data.message);
                         setIsModalOpen(false);
                         setShowErrorModal(true);
-                        setErrorMessage(data.message || "Failed to join event. Please try again.");
+                        setErrorMessage(
+                            data.message ||
+                                "Failed to join event. Please try again."
+                        );
                         setTimeout(() => {
                             setShowErrorModal(false);
                             setVerificationLink("");
@@ -178,49 +193,84 @@ export default function DrawEvent() {
     };
 
     if (!rewardDetail) {
-        return <div className="flex justify-center items-center h-screen">
-            <div className="w-12 h-12 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin"></div>
-        </div>
-            ;
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <div className="w-12 h-12 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin"></div>
+            </div>
+        );
     }
 
     return (
         <div className="bg-yellow-300">
             <Header />
             <main className="bg-yellow-300 flex flex-col w-full min-h-screen p-4">
-                <img src={rewardDetail.draw_image} alt={rewardDetail.draw_name} className="rounded-lg shadow-lg w-[90vw] max-h-[120px] mx-auto my-3 object-fill" />
-                <h2 className="text-center text-black font-bold">Event Title:</h2>
-                <p className="text-center text-black border border-black p-2 rounded-lg">{rewardDetail.draw_name}</p>
-                <h2 className="text-center text-black font-bold">Events Detail and Join Channel as Subscriber:</h2>
-                <a href={rewardDetail.prize_detail_link || ""} className="text-center text-red-500 border border-black p-2 rounded-lg">{rewardDetail.prize_detail_link || ""}</a>
+                <img
+                    src={rewardDetail.draw_image}
+                    alt={rewardDetail.draw_name}
+                    className="rounded-lg shadow-lg w-[90vw] max-h-[120px] mx-auto my-3 object-fill"
+                />
+                <h2 className="text-center text-black font-bold">
+                    Event Title:
+                </h2>
+                <p className="text-center text-black border border-black p-2 rounded-lg">
+                    {rewardDetail.draw_name}
+                </p>
+                <h2 className="text-center text-black font-bold">
+                    Events Detail and Join Channel as Subscriber:
+                </h2>
+                <a
+                    href={rewardDetail.prize_detail_link || ""}
+                    className="text-center text-red-500 border border-black p-2 rounded-lg"
+                >
+                    {rewardDetail.prize_detail_link || ""}
+                </a>
 
                 <h2 className="text-center text-black font-bold">Prizes:</h2>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 text-center text-black p-2 rounded-lg border border-black">
                     {rewardDetail.Prize_list.map((prize, index) => (
-                        <li key={index} className="flex justify-between items-center">
+                        <li
+                            key={index}
+                            className="flex justify-between items-center"
+                        >
                             <div className="flex-1">{prize.no_win_prize}</div>
                             <div className="flex-1">{prize.no_of_prize}</div>
                             <div className="flex-1">{prize.prize}</div>
                         </li>
                     ))}
                 </ul>
-                <h2 className="text-center text-black font-bold">Early Birds Prize:</h2>
+                <h2 className="text-center text-black font-bold">
+                    Early Birds Prize:
+                </h2>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 text-center text-black p-2 rounded-lg border border-black">
-                    {rewardDetail.Prize_list.map((prize, index) => (
-                        (Number(prize.e_no_of_prize) !== 0) && (
-                            <li key={index} className="flex justify-between items-center">
-                                <div className="flex-1">{prize.e_no_win_prize}</div>
-                                <div className="flex-1">{prize.e_no_of_prize}</div>
-                                <div className="flex-1">{prize.e_prize}</div>
-                            </li>
-                        )
-                    ))}
+                    {rewardDetail.Prize_list.map(
+                        (prize, index) =>
+                            Number(prize.e_no_of_prize) !== 0 && (
+                                <li
+                                    key={index}
+                                    className="flex justify-between items-center"
+                                >
+                                    <div className="flex-1">
+                                        {prize.e_no_win_prize}
+                                    </div>
+                                    <div className="flex-1">
+                                        {prize.e_no_of_prize}
+                                    </div>
+                                    <div className="flex-1">
+                                        {prize.e_prize}
+                                    </div>
+                                </li>
+                            )
+                    )}
                 </ul>
 
-                <h2 className="text-center text-black font-bold">Event Brief:</h2>
+                <h2 className="text-center text-black font-bold">
+                    Event Brief:
+                </h2>
                 <p
                     className="text-center text-black border border-black p-2 rounded-lg"
-                    dangerouslySetInnerHTML={{ __html: rewardDetail.draw_detail }}
+                    dangerouslySetInnerHTML={{
+                        __html: rewardDetail.draw_detail,
+                    }}
                 />
                 {!hasJoined && isWithinDateRange && (
                     <div className="flex justify-center items-center my-3">
@@ -230,10 +280,13 @@ export default function DrawEvent() {
                         >
                             VIEW POST TO JOIN PROGRAM
                         </button>
-                        
                     </div>
                 )}
-                {isWithinDateRange && !hasJoined && <h3 className="text-black">User Left to Join: {rewardDetail.join_user}</h3>}
+                {isWithinDateRange && !hasJoined && (
+                    <h3 className="text-black">
+                        User Left to Join: {rewardDetail.join_user}
+                    </h3>
+                )}
                 {!isWithinDateRange && countdown && !hasJoined && (
                     <h3 className="text-center text-black font-bold text-2xl mt-3">
                         {countdown}
@@ -242,14 +295,17 @@ export default function DrawEvent() {
 
                 {!hasJoined && (
                     <p className="text-center text-black text-sm p-4 rounded-lg">
-                        View Events Post Detail, Join Channel and Copy Events Post Link, Comeback and paste Link to BonusforYou
+                        View Events Post Detail, Join Channel and Copy Events
+                        Post Link, Comeback and paste Link to BonusforYou
                     </p>
                 )}
                 <div
                     className="rounded-full w-12 h-12 bg-red-500 justify-center items-center flex mx-auto"
                     onClick={() => {
                         navigator.clipboard.writeText(window.location.href);
-                        WebApp.showAlert("Event link has been copied successfully.  Paste it to telegram to share it with your friends")
+                        WebApp.showAlert(
+                            "Event link has been copied successfully.  Paste it to telegram to share it with your friends"
+                        );
                     }}
                 >
                     <img className="w-6 h-6" src="/share.png" alt="Share" />
@@ -258,11 +314,15 @@ export default function DrawEvent() {
                 {isModalOpen && (
                     <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
                         <div className="bg-yellow-300 p-6 rounded-lg flex flex-col items-center">
-                            <h2 className="text-center text-black font-bold mb-4">Please input the verification Event Post Link:</h2>
+                            <h2 className="text-center text-black font-bold mb-4">
+                                Please input the verification Event Post Link:
+                            </h2>
                             <input
                                 type="text"
                                 value={verificationLink}
-                                onChange={(e) => setVerificationLink(e.target.value)}
+                                onChange={(e) =>
+                                    setVerificationLink(e.target.value)
+                                }
                                 className="w-full p-2 bg-yellow-300 border-2 border-black rounded mb-4"
                             />
                             <img
@@ -282,7 +342,9 @@ export default function DrawEvent() {
                 {showSuccessModal && (
                     <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
                         <div className="bg-white p-6 rounded-lg flex flex-col items-center">
-                            <h2 className="text-center text-black font-bold mb-4">Joined Successfully!</h2>
+                            <h2 className="text-center text-black font-bold mb-4">
+                                Joined Successfully!
+                            </h2>
                             <img
                                 src={rewardDetail.draw_image}
                                 alt={rewardDetail.draw_name}
@@ -294,7 +356,9 @@ export default function DrawEvent() {
                 {showErrorModal && (
                     <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
                         <div className="bg-yellow-300 p-6 rounded-lg flex flex-col items-center">
-                            <p className="text-center text-red-600 font-bold">{errorMessage}</p>
+                            <p className="text-center text-red-600 font-bold">
+                                {errorMessage}
+                            </p>
                             <img
                                 src={rewardDetail.draw_image}
                                 alt={rewardDetail.draw_name}
