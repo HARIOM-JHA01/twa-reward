@@ -298,7 +298,14 @@ export default function RewardEvent() {
                     Draw to be performed on:
                 </h2>
                 <p className="text-center text-black border border-black p-2 rounded-lg text-lg">
-                    {new Date(rewardDetail.winner_declare_date).toDateString()}
+                    {new Date(
+                        rewardDetail.winner_declare_date
+                    ).toLocaleDateString("en-IN", {
+                        weekday: "long",
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                    })}
                 </p>
                 {!hasJoined && isWithinDateRange && (
                     <div className="flex justify-center items-center my-3">
