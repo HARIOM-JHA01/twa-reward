@@ -6,7 +6,7 @@ import { UserContext } from "../context/UserContext.js";
 
 export default function Profile() {
     const [error, setError] = useState("");
-    const profileImage = "/profile.jpg";
+    const profileImage = "/reward-monster/profile.jpg";
 
     const userContext = useContext(UserContext);
     if (!userContext) {

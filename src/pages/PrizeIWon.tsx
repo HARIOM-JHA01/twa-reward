@@ -105,21 +105,55 @@ const RewardCard: React.FC<RewardCardProps> = ({ reward, onCardClick }) => {
             className="flex gap-1 flex-col border-2 border-black rounded-lg mb-2 cursor-pointer"
             onClick={() => navigate(`/reward-event/${reward.id}`)}
         >
-            <h2 className="text-black px-1">{reward.reward_name}</h2>
+            <h2 className="text-black ps-3 font-bold">{reward.reward_name}</h2>
             <img
                 src={reward.reward_image}
                 alt={reward.reward_name}
-                className="w-full h-full object-cover rounded-lg p-1"
+                className="rounded-lg shadow-lg w-[90vw] h-[120px] mx-auto"
             />
             <div className="flex justify-between">
-                <h2 className="text-black px-1">
-                    Start On: {new Date(reward.start_date).toLocaleDateString()}
+                <h2 className="text-black ps-3">
+                    Start On:{" "}
+                    {reward.start_date
+                        ? (() => {
+                              const dateObj = new Date(reward.start_date);
+                              // Format the date as dd-mm-yyyy
+                              const datePart = dateObj
+                                  .toLocaleDateString("en-GB")
+                                  .replace(/\//g, "-");
+                              // Format the time as hh:mm (24-hour format)
+                              const timePart = dateObj.toLocaleTimeString(
+                                  "en-GB",
+                                  {
+                                      hour: "2-digit",
+                                      minute: "2-digit",
+                                  }
+                              );
+                              return `${datePart} ${timePart} GMT`;
+                          })()
+                        : "Not Available"}
                 </h2>
                 <div className="cursor-pointer" onClick={handleGiftBoxClick}>
                     <img src={giftBoxPath} alt="gift box" className="w-7 h-7" />
                 </div>
-                <h2 className="text-black px-1">
-                    End On: {new Date(reward.end_date).toLocaleDateString()}
+                <h2 className="text-black pe-3">
+                    End On:{" "}
+                    {reward.end_date
+                        ? (() => {
+                              const dateObj = new Date(reward.end_date);
+                              const datePart = dateObj
+                                  .toLocaleDateString("en-GB")
+                                  .replace(/\//g, "-");
+                              const timePart = dateObj.toLocaleTimeString(
+                                  "en-GB",
+                                  {
+                                      hour: "2-digit",
+                                      minute: "2-digit",
+                                  }
+                              );
+                              return `${datePart} ${timePart} GMT`;
+                          })()
+                        : "Not Available"}
                 </h2>
             </div>
         </div>
