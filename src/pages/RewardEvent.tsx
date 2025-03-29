@@ -110,16 +110,20 @@ export default function RewardEvent() {
             let fetchedRewardDetail: IndividualDraw | null = null;
 
             try {
-                console.log("Fetching UTC time...");
+                // 1. Fetch UTC Time
                 const timeRes = await fetch(
-                    "https://timeapi.io/api/Time/current/zone?timeZone=UTC"
+                    "https://bonusforyou.org/api/user/servercurrnettime"
                 );
-                if (!timeRes.ok)
-                    throw new Error(`Time API error: ${timeRes.status}`);
-                const timeData = await timeRes.json();
-                const apiUTCStr = timeData.dateTime;
-                console.log("Raw UTC time string:", apiUTCStr);
-                const parsedApiUTCTime = new Date(apiUTCStr);
+                if (!timeRes.ok) {
+                    throw new Error(
+                        `Server Time API error: ${timeRes.status} ${timeRes.statusText}`
+                    );
+                }
+
+                const apiUTCStr = await timeRes.text();
+                const cleanedApiUTCStr = apiUTCStr.replace(/^"|"$/g, "");
+                console.log("API UTC Time String:", cleanedApiUTCStr);
+                const parsedApiUTCTime = new Date(cleanedApiUTCStr);
 
                 if (isNaN(parsedApiUTCTime.getTime())) {
                     throw new Error("Failed to parse UTC time from API");
