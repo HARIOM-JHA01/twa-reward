@@ -366,9 +366,8 @@ export default function RewardEvent() {
 
         const payload = {
             user_id: user.id,
-            // Convert to string here as well for consistency
             Draw_id: String(currentRewardId),
-            Verification_link: verificationLink,
+            Verification_link: verificationLink.toLowerCase(),
         };
         console.log("Submitting join payload:", payload);
 

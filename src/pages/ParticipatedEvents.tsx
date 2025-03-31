@@ -88,7 +88,7 @@ export const RewardCard: React.FC<RewardCardProps> = ({ reward }) => {
                 <img
                     src={reward.reward_image}
                     alt={reward.reward_name || "No Image"}
-                    className="w-full h-40 object-cover rounded-lg p-1"
+                    className="rounded-lg shadow-lg w-[90vw] h-[120px] mx-auto"
                 />
             ) : (
                 <p className="text-center text-gray-500">No Image Available</p>
