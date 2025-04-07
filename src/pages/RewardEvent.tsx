@@ -564,7 +564,7 @@ export default function RewardEvent() {
                               year: "numeric",
                               month: "long",
                               day: "numeric",
-                          })
+                          }) + " GMT"
                         : "Date not specified"}
                 </p>
 
