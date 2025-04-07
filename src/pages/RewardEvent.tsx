@@ -22,8 +22,7 @@ export default function RewardEvent() {
     const [isLoading, setIsLoading] = useState(true);
     const [timeOffset, setTimeOffset] = useState<number>(0);
 
-    // Assuming shareImage path is correct relative to public folder or handled by build process
-    const shareImage = "/reward-monster/share.png";
+    // const shareImage = "/reward-monster/share.png";
 
     // FIX 1: Use ReturnType<typeof setInterval> instead of NodeJS.Timeout
     const countdownIntervalRef = useRef<ReturnType<typeof setInterval> | null>(
