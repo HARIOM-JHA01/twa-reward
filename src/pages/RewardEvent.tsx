@@ -564,7 +564,16 @@ export default function RewardEvent() {
                               year: "numeric",
                               month: "long",
                               day: "numeric",
-                          }) + " GMT"
+                          }) +
+                          " @ " +
+                          new Date(
+                              rewardDetail.winner_declare_date
+                          ).toLocaleTimeString("en-IN", {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                              hour12: false,
+                          }) +
+                          " GMT"
                         : "Date not specified"}
                 </p>
 
@@ -624,28 +633,29 @@ export default function RewardEvent() {
                     </p>
                 )}
 
-                <div
-                    className="rounded-full w-12 h-12 bg-red-500 justify-center items-center flex mx-auto"
-                    onClick={() => {
-                        navigator.clipboard
-                            .writeText(window.location.href)
-                            .then(() =>
-                                WebApp.showAlert(
-                                    "Event link has been copied successfully. Paste it to telegram to share it with your friends"
-                                )
-                            )
-                            .catch((err) => {
-                                console.error("Failed to copy: ", err);
-                                WebApp.showAlert("Failed to copy link.");
-                            });
-                    }}
-                    role="button"
-                    tabIndex={0}
-                    title="Copy event link"
-                >
-                    {/* Ensure shareImage variable is correctly defined and accessible */}
-                    <img className="w-6 h-6" src={shareImage} alt="Share" />
-                </div>
+                {/* 
+<div
+    className="rounded-full w-12 h-12 bg-red-500 justify-center items-center flex mx-auto"
+    onClick={() => {
+        navigator.clipboard
+            .writeText(window.location.href)
+            .then(() =>
+                WebApp.showAlert(
+                    "Event link has been copied successfully. Paste it to telegram to share it with your friends"
+                )
+            )
+            .catch((err) => {
+                console.error("Failed to copy: ", err);
+                WebApp.showAlert("Failed to copy link.");
+            });
+    }}
+    role="button"
+    tabIndex={0}
+    title="Copy event link"
+>
+    <img className="w-6 h-6" src={shareImage} alt="Share" />
+</div>
+*/}
 
                 <Footer />
 
