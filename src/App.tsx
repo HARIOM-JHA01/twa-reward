@@ -143,7 +143,7 @@ function App() {
                         />
                     )}
 
-                    <section className="flex flex-col gap-4 mt-8 mb-4 items-center">
+                    <section className="flex flex-col gap-4 mt-4 mb-4 items-center">
                         <div
                             onClick={() => navigate("/available-rewards")}
                             className="py-3 bg-[#37474F]  text-center rounded-md text-white hover:font-bold hover:cursor-pointer w-[90vw]"
@@ -174,9 +174,9 @@ function App() {
                         >
                             {t("app.myProfile")}
                         </div>
+                        <Footer />
                     </section>
                 </main>
-                <Footer />
             </div>
         </>
     );
