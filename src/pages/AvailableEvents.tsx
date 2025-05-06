@@ -108,7 +108,7 @@ interface RewardCardProps {
 const RewardCard: React.FC<RewardCardProps> = ({ reward, navigate }) => {
     return (
         <div
-            className="flex gap-1 flex-col border-2 border-black rounded-lg mb-2 cursor-pointer"
+            className="flex gap-1 flex-col border-2 text-center border-black rounded-lg mb-2 cursor-pointer"
             onClick={() => navigate(`/reward-event/${reward.id}`)}
         >
             <h2 className="text-black ps-3 font-bold">{reward.reward_name}</h2>
