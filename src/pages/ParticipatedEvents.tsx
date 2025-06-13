@@ -4,63 +4,71 @@ import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import WebApp from "@twa-dev/sdk";
+import BannerComponent from "../components/BannerComponent";
+
 import { Reward } from "../types/type";
 
-export default function AvailableEvents() {
+export default function Participated() {
     const [rewards, setRewards] = useState<Reward[]>([]);
     const userContext = useContext(UserContext);
     const user = userContext?.user;
+    // const navigate = useNavigate();
 
     useEffect(() => {
         fetch(
-            `https://bonusforyou.org/api/user/Participated_rewards?user_id=${user.id}`
+            `https://bonusforyou.org/api/user/userparticipate?user_id=${user.id}`
         )
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
-            })
+            .then((response) => response.json())
             .then((data) => {
-                if (data && Array.isArray(data.data)) {
-                    setRewards(data.data);
-                } else {
-                    console.error("Invalid API response structure", data);
-                    setRewards([]);
-                }
+                console.log(data);
+                setRewards(data.data);
             })
             .catch((error) => console.error("Error fetching rewards:", error));
 
-        if (WebApp?.BackButton) {
-            WebApp.BackButton.show();
-            WebApp.BackButton.onClick(() => {
-                window.history.back();
-            });
-        } else {
-            console.warn("WebApp SDK not available");
-        }
+        WebApp.BackButton.show();
+        WebApp.BackButton.onClick(() => {
+            window.history.back();
+        });
     }, [user.id]);
 
     return (
         <div className="bg-yellow-300">
             <Header />
-            <main className="bg-yellow-300 flex flex-col min-h-[70vh] w-full">
+            <main className="bg-yellow-300 flex flex-col min-h-[100vh] w-full">
                 <div className="text-center text-lg font-bold text-white bg-gray-500">
                     Participated Events
                 </div>
+
+                {/* Top Banner for Participated Events */}
+                <BannerComponent
+                    pageName="Participated Events"
+                    position="top"
+                    className="rounded-lg shadow-lg w-[90vw] h-[120px] mx-auto mt-2"
+                />
+
                 <section className="mt-4">
-                    <div className="rounded-md shadow-md px-2">
+                    <div className="rounded-md shadow-md">
                         {rewards.length === 0 ? (
-                            <h2 className="p-2 text-center rounded-md shadow-md">
+                            <h2 className="text-center p-2">
                                 No Data to Display
                             </h2>
                         ) : (
                             rewards.map((reward) => (
-                                <RewardCard key={reward.id} reward={reward} />
+                                <RewardCard
+                                    key={reward.id}
+                                    reward={reward}
+                                />
                             ))
                         )}
                     </div>
                 </section>
+
+                {/* Bottom Banner for Participated Events */}
+                <BannerComponent
+                    pageName="Participated Events"
+                    position="bottom"
+                    className="rounded-lg shadow-lg w-[90vw] h-[120px] mx-auto mb-2 mt-2"
+                />
             </main>
             <Footer />
         </div>
@@ -78,7 +86,7 @@ export const RewardCard: React.FC<RewardCardProps> = ({ reward }) => {
 
     return (
         <div
-            className="flex gap-1 flex-col border-2 text-center border-black rounded-lg mb-2 cursor-pointer"
+            className="flex gap-1 flex-col border-2 text-center border-black rounded-lg mb-2 cursor-pointer mx-2"
             onClick={() => navigate(`/participated-reward-event/${reward.id}`)}
         >
             <h2 className="text-black ps-3">

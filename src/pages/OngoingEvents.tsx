@@ -4,6 +4,7 @@ import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import WebApp from "@twa-dev/sdk";
+import BannerComponent from "../components/BannerComponent";
 
 import { Reward } from "../types/type";
 
@@ -31,10 +32,18 @@ export default function Rewards() {
     return (
         <div className="bg-yellow-300">
             <Header />
-            <main className="bg-yellow-300 flex flex-col min-h-[70vh] w-full">
+            <main className="bg-yellow-300 flex flex-col min-h-[100vh] w-full">
                 <div className="text-center text-lg font-bold text-white bg-gray-500">
                     Ongoing Events
                 </div>
+
+                {/* Top Banner for Ongoing Events */}
+                <BannerComponent
+                    pageName="Ongoing Events"
+                    position="top"
+                    className="rounded-lg shadow-lg w-[90vw] h-[120px] mx-auto mt-2"
+                />
+
                 <section className="mt-2">
                     <div className="rounded-md shadow-md">
                         {!rewards || rewards.length === 0 ? (
@@ -48,6 +57,13 @@ export default function Rewards() {
                         )}
                     </div>
                 </section>
+
+                {/* Bottom Banner for Ongoing Events */}
+                <BannerComponent
+                    pageName="Ongoing Events"
+                    position="bottom"
+                    className="rounded-lg shadow-lg w-[90vw] h-[120px] mx-auto mb-2 mt-2"
+                />
             </main>
             <Footer />
         </div>
@@ -62,7 +78,7 @@ export const RewardCard: React.FC<RewardCardProps> = ({ reward }) => {
     const navigate = useNavigate();
     return (
         <div
-            className="flex gap-1 flex-col border-2 text-center border-black rounded-lg mb-2"
+            className="flex gap-1 flex-col border-2 text-center border-black rounded-lg mb-2  mx-2"
             onClick={() => navigate(`/reward-event/${reward.id}`)}
         >
             <h2 className="text-black ps-3 font-bold">{reward.reward_name}</h2>

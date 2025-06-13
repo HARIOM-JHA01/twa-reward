@@ -5,6 +5,7 @@ import { UserContext } from "../context/UserContext";
 import WebApp from "@twa-dev/sdk";
 import { useNavigate } from "react-router-dom";
 import giftBoxPath from "/giftbox.png";
+import BannerComponent from "../components/BannerComponent";
 
 interface Reward {
     id: number;
@@ -54,11 +55,19 @@ export default function PrizeIWon() {
     return (
         <div className="bg-yellow-300">
             <Header />
-            <main className="bg-yellow-300 flex flex-col min-h-[70vh] w-full relative">
+            <main className="bg-yellow-300 flex flex-col min-h-[100vh] w-full relative">
                 <div className="text-center text-lg font-bold text-white bg-gray-500">
                     Prize I Won
                 </div>
-                <section className="mt-4">
+
+                {/* Top Banner for Prize I Won */}
+                <BannerComponent
+                    pageName="Prize I Won"
+                    position="top"
+                    className="rounded-lg shadow-lg w-[90vw] h-[120px] mx-auto mt-2"
+                />
+
+                <section className="mt-4 mx-2">
                     <div>
                         {rewards.length === 0 ? (
                             <h2 className="p-2 text-center rounded-md shadow-md px-2">
@@ -75,6 +84,14 @@ export default function PrizeIWon() {
                         )}
                     </div>
                 </section>
+
+                {/* Bottom Banner for Prize I Won */}
+                <BannerComponent
+                    pageName="Prize I Won"
+                    position="bottom"
+                    className="rounded-lg shadow-lg w-[90vw] h-[120px] mx-auto mt-2 mb-2"
+                />
+
                 {selectedReward && (
                     <RewardDetail
                         reward={selectedReward}

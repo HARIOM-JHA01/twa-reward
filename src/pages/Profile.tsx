@@ -1,12 +1,13 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import BannerComponent from "../components/BannerComponent";
 import { useState, useEffect, useContext } from "react";
 import WebApp from "@twa-dev/sdk";
 import { UserContext } from "../context/UserContext.js";
 
 export default function Profile() {
     const [error, setError] = useState("");
-    const profileImage = "/reward-monster/profile.jpg";
+    // const profileImage = "/reward-monster/profile.jpg";
 
     const userContext = useContext(UserContext);
     if (!userContext) {
@@ -34,22 +35,25 @@ export default function Profile() {
             <div className="text-center text-lg font-bold text-white bg-gray-500">
                 My Profile
             </div>
-            <main className="bg-yellow-300  flex flex-col items-center justify-center w-full pt-4 mb-6">
+            <main className="bg-yellow-300 flex flex-col items-center justify-center w-full pt-4 mb-6">
+                {/* Top Banner */}
+                <BannerComponent pageName="Participants My Profile" position="top" />
+
                 {error ? (
                     <h1 className="text-red-600 font-bold">{error}</h1>
                 ) : (
                     <>
                         {isLoggedIn ? (
-                            <div className="flex flex-col justify-center gap-3 w-[90%] max-w-md bg-yellow-300  rounded-lg shadow-md">
+                            <div className="flex flex-col justify-center gap-3 w-[90%] max-w-md bg-yellow-300 rounded-lg shadow-md">
                                 <div className="flex flex-col">
-                                    <img
+                                    {/* <img
                                         src={profileImage}
                                         alt="Bonus For You Logo"
-                                        onError={(e: any) => {
-                                            e.target.src = "fallback-logo.png";
+                                        onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+                                            e.currentTarget.src = "fallback-logo.png";
                                         }}
                                         className="rounded-lg shadow-lg w-[90vw] h-[120px] mx-auto mb-5"
-                                    />
+                                    /> */}
 
                                     <label className="font-semibold text-xl text-black">
                                         Name
@@ -94,6 +98,9 @@ export default function Profile() {
                         )}
                     </>
                 )}
+
+                {/* Bottom Banner */}
+                <BannerComponent pageName="Participants My Profile" position="bottom" />
             </main>
             <Footer />
         </div>

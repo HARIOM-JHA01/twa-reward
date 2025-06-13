@@ -4,6 +4,7 @@ import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import WebApp from "@twa-dev/sdk";
+import BannerComponent from "../components/BannerComponent";
 
 import { Reward } from "../types/type";
 
@@ -73,6 +74,14 @@ export default function AvailableEvents() {
                 <div className="text-center text-lg font-bold text-white bg-gray-500">
                     Available Events
                 </div>
+
+                {/* Top Banner for Available Events */}
+                <BannerComponent
+                    pageName="Available Events"
+                    position="top"
+                    className="rounded-lg shadow-lg w-[90vw] h-[120px] mx-auto mt-2"
+                />
+
                 <section className="mt-4">
                     <div className="rounded-md shadow-md px-2">
                         {rewards === null ? (
@@ -94,6 +103,13 @@ export default function AvailableEvents() {
                         )}
                     </div>
                 </section>
+
+                {/* Bottom Banner for Available Events */}
+                <BannerComponent
+                    pageName="Available Events"
+                    position="bottom"
+                    className="rounded-lg shadow-lg w-[90vw] h-[120px] mx-auto mb-2 mt-2"
+                />
             </main>
             <Footer />
         </div>

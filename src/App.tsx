@@ -5,11 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Footer from "./components/Footer";
 import { UserContext } from "./context/UserContext";
 import { useTranslation } from "react-i18next";
-import headerImage from "/profile.jpg";
-type PromotionBanner = {
-    draw_image: string;
-    draw_name: string;
-};
+import BannerComponent from "./components/BannerComponent";
 
 function App() {
     const userContext = useContext(UserContext);
@@ -18,8 +14,6 @@ function App() {
     }
     const { setUser, setIsLoggedIn } = userContext;
 
-    const [promotionBanner, setPromotionBanner] =
-        useState<PromotionBanner | null>(null);
     const [countryCode, setCountryCode] = useState<string | null>(null); // State to store country code
     const [loading, setLoading] = useState(true); // Add a loading state
     const [loginFailed, setLoginFailed] = useState(false); // Add loginFailed state
@@ -28,18 +22,6 @@ function App() {
 
     useEffect(() => {
         WebApp.ready();
-
-        // Fetch promotion banner data
-        fetch("https://bonusforyou.org/api/PromotionBannerlist")
-            .then((res) => res.json())
-            .then((data) => {
-                if (data.status) {
-                    setPromotionBanner(data.data);
-                }
-            })
-            .catch((error) =>
-                console.error("Error fetching promotion banner:", error)
-            );
 
         // Fetch country information
         fetch("https://bonusforyou.org/api/user/get-country")
@@ -134,15 +116,15 @@ function App() {
                 <div className="text-center text-lg font-bold text-white bg-gray-500">
                     My Panel
                 </div>
-                <main className="bg-yellow-300 pt-4 flex flex-col justify-start items-center w-full flex-grow">
-                    {promotionBanner && (
-                        <img
-                            src={headerImage}
-                            alt={promotionBanner?.draw_name || ""}
-                            className="rounded-lg shadow-lg w-[90vw] h-[120px] mx-auto"
-                        />
-                    )}
 
+                {/* Top Banner for My Panel */}
+                <BannerComponent
+                    pageName="Participant My panel"
+                    position="top"
+                    className="rounded-lg shadow-lg w-[90vw] h-[120px] mx-auto mt-2"
+                />
+
+                <main className="bg-yellow-300 pt-4 flex flex-col justify-start items-center w-full flex-grow">
                     <section className="flex flex-col gap-4 mt-4 mb-4 items-center">
                         <div
                             onClick={() => navigate("/available-rewards")}
@@ -174,6 +156,14 @@ function App() {
                         >
                             {t("app.myProfile")}
                         </div>
+
+                        {/* Bottom Banner for My Panel */}
+                        <BannerComponent
+                            pageName="Participant My panel"
+                            position="bottom"
+                            className="rounded-lg shadow-lg w-[90vw] h-[120px] mx-auto"
+                        />
+
                         <Footer />
                     </section>
                 </main>

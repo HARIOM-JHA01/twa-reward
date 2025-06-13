@@ -14,7 +14,14 @@ export default defineConfig({
                 target: 'https://ipapi.co',
                 changeOrigin: true,
                 rewrite: (path) => path.replace(/^\/api\/ipapi/, '')
-            }
+            },
+            // Add banner API proxies to solve CORS issues
+            '/api/banner': {
+                target: 'https://bonusforyou.org',
+                changeOrigin: true,
+                secure: true,
+                rewrite: (path) => path.replace(/^\/api\/banner/, '/api/user')
+            },
         }
     }
 });
