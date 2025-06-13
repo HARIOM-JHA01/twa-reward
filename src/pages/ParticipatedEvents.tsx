@@ -16,7 +16,7 @@ export default function Participated() {
 
     useEffect(() => {
         fetch(
-            `https://bonusforyou.org/api/user/userparticipate?user_id=${user.id}`
+            `https://bonusforyou.org/api/user/Participated_rewards?user_id=${user.id}`
         )
             .then((response) => response.json())
             .then((data) => {
